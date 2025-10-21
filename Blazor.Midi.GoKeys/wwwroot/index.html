@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blazor.Midi.GoKeys</title>
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="Blazor.Midi.GoKeys.styles.css" />
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="piano-loading">
+            <!-- White keys -->
+            <div class="piano-key white-key" data-note="C"></div>
+            <div class="piano-key white-key" data-note="D"></div>
+            <div class="piano-key white-key" data-note="E"></div>
+            <div class="piano-key white-key" data-note="F"></div>
+            <div class="piano-key white-key" data-note="G"></div>
+            <div class="piano-key white-key" data-note="A"></div>
+            <div class="piano-key white-key" data-note="B"></div>
+
+            <!-- Black keys -->
+            <div class="piano-key black-key" data-note="C#"></div>
+            <div class="piano-key black-key" data-note="D#"></div>
+            <div class="piano-key black-key" data-note="F#"></div>
+            <div class="piano-key black-key" data-note="G#"></div>
+            <div class="piano-key black-key" data-note="A#"></div>
+        </div>
+        <div class="loading-progress-text">Chargement en cours...</div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+    <script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="true"></script>
+</body>
+
+</html>

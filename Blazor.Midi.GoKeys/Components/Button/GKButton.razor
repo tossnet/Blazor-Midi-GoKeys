@@ -1,0 +1,11 @@
+﻿@namespace Blazor.Midi.GoKeys.Components
+
+@inherits GKComponentBase
+
+<button @onclick="@OnClickHandlerAsync"
+        class="gk-start  @Class"
+        disabled="@(ParentDisabled | Disabled)"
+        style="@Style"
+        @attributes="Attributes">
+    @ChildContent
+</button>
