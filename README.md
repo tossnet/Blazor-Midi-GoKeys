@@ -6,6 +6,9 @@ This app demonstrates how Blazor can be used to **handle MIDI devices directly i
 
 ---
 
+<img width="1010" height="532" alt="image" src="https://github.com/user-attachments/assets/11d7bbfc-c72e-41b6-9a37-ae6d1f845a16" />
+
+
 ## ✨ Main Features
 
 - 🎛️ Automatic detection of connected MIDI devices  
