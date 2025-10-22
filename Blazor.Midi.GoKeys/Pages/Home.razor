@@ -1,15 +1,44 @@
 ﻿@page "/"
 
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Midi-GoKeys</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Midi Go:Keys</h1>
 
-Welcome to your new app.
-
-
-
-<div class="gk-start"></div>
+Work in progress
 
 
-<GKButton />
+
+<div class="container">
+	<div class="column">
+		<GKButton Caption="⏻"
+				  OnClick="PowerClick"
+				  Appearance="Appearance.Extended" />
+	</div>
+	<div class="column">
+		<GKLCD Disabled="@_connected"
+			   TextStates="@_connectionStatus" />
+		<div class="functions">
+			<GKButton Caption="f1"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;" />
+			<GKButton Caption="f2"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;" />
+			<GKButton Caption="f3"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;" />
+			<GKButton Caption="f4"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;" />
+		</div>
+	</div>
+	<div class="column">
+		<GKButton Caption="piano" />
+		<GKButton Caption="string" />
+	</div>
+</div>
+
+
+
+

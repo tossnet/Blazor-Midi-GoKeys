@@ -1,0 +1,167 @@
+.lcd-screen {
+    background: linear-gradient(180deg, #1a3a7a 0%, #2b4f9f 50%, #1a3a7a 100%);
+    border: 7px solid #181818;
+    /*padding: 2px;*/
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    width: 385px;
+    height: 143px;
+    font-family: 'Courier New', monospace;
+    font-size: 22px;
+    font-weight: bold;
+    color: #a0c4ff;
+    text-shadow: 0 0 7px rgba(160, 196, 255, 0.8), 0 0 20px rgba(160, 196, 255, 0.4), 0 0 30px rgba(160, 196, 255, 0.2);
+    letter-spacing: 1.4px;
+    line-height: 0.8;
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    grid-template-rows: 18px 1fr 20px;
+}
+
+.lcd-states {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    border-bottom: 2px solid rgba(160, 196, 255, 85%);
+    padding-left: 4px;
+}
+
+.lcd-piano-keys {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 22px;
+    background-color: #a0c4ff;
+    border-right: 2px solid rgba(160, 196, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 0;
+    flex-shrink: 0;
+    padding: 5px 0;
+    margin-top: 18px;
+}
+
+.lcd-piano-key {
+    background: linear-gradient(180deg, #1a3a7a 0%, #2b4f9f 50%, #1a3a7a 100%);
+    width: 14px;
+    height: 8px;
+}
+
+    .lcd-piano-key.single,
+    .lcd-piano-key.group-2-end,
+    .lcd-piano-key.group-3-end {
+        margin-bottom: 10px;
+    }
+
+    .lcd-piano-key.group-2,
+    .lcd-piano-key.group-3 {
+        margin-bottom: 2px;
+    }
+
+/* Scan line effect (scanlines) */
+.lcd-screen::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.15) 0px, transparent 1px, transparent 2px, rgba(0, 0, 0, 0.15) 3px );
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Pixel grid effect LCD */
+.lcd-screen::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient( 90deg, rgba(0, 0, 0, 0.03) 0px, transparent 1px, transparent 2px );
+    pointer-events: none;
+    z-index: 2;
+}
+
+.lcd-content {
+    display: block;
+    grid-column: 2;
+    grid-row: 2;
+    padding-top: 2px;
+    padding-left: 20px;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+}
+
+.lcd-small {
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.lcd-tall {
+    font-size: 22px;
+    transform: scaleY(1.8);
+    display: inline-block;
+}
+
+.lcd-menu {
+    display: block;
+    grid-column: 1 / 3;
+    grid-row: 3;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    border-top: 2px solid rgba(160, 196, 255, 85%);
+    margin: 0;
+}
+
+.lcd-menu-item {
+    font-size: 12px;
+    opacity: 0.8;
+    transform: scaleY(1.5); 
+    display: inline-block; 
+}
+
+/* Pixelated effect (optionnel) */
+.lcd-pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+
+.lcd-blink {
+    animation: lcd-blink 1s infinite;
+}
+
+@keyframes lcd-blink {
+    0%, 49% {
+        opacity: 1;
+    }
+
+    50%, 100% {
+        opacity: 0.3;
+    }
+}
+
+
+/* Variante plus sombre (écran éteint/veille) */
+.lcd-screen.lcd-off {
+    background: linear-gradient(180deg, #0d1f3f 0%, #1a3a7a 50%, #0d1f3f 100%);
+}
+
+    .lcd-screen.lcd-off .lcd-states,
+    .lcd-piano-keys {
+        border-bottom: unset;
+        color: #4a6fa5;
+        text-shadow: 0 0 5px rgba(74, 111, 165, 0.4), 0 0 10px rgba(74, 111, 165, 0.2);
+    }
+
+    .lcd-screen.lcd-off .lcd-piano-keys,
+    .lcd-screen.lcd-off .lcd-content,
+    .lcd-screen.lcd-off .lcd-menu {
+        visibility: hidden;
+    }

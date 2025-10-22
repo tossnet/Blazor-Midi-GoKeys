@@ -1,0 +1,21 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Metrophobic&display=swap');
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0rem;
+    padding: 1rem;
+}
+
+.column {
+    flex: 1 1 140px; /* Grow, shrink, base of 1400px */
+  /*  background: #f0f0f0;*/
+    padding: 0.5rem;
+}
+
+/* If you want to force 1 column on mobile devices */
+@media (max-width: 768px) {
+    .column {
+        flex-basis: 100%;
+    }
+}

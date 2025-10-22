@@ -1,5 +1,3 @@
-//namespace Blazor.Midi.GoKeys.Components.Button;
-
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -19,6 +17,25 @@ public partial class GKButton : GKComponentBase
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
 
+    /// <summary />
+    [Parameter]
+    public Appearance Appearance { get; set; } = Appearance.Round;
+
+    /// <summary />
+    [Parameter]
+    public bool ShowIndicator { get; set; } = false;
+
+    /// <summary />
+    [Parameter]
+    public bool IsIndicatorOn { get; set; } = false;
+
+    /// <summary />
+    [Parameter]
+    public string? Caption { get; set; }
+
+    /// <summary />
+    [Parameter]
+    public CaptionPosition CaptionPosition { get; set; } = CaptionPosition.Above;
 
     /// </summary>
     protected async Task OnClickHandlerAsync(MouseEventArgs e)
@@ -29,4 +46,28 @@ public partial class GKButton : GKComponentBase
         }
     }
 
+    /// </summary>
+    private string GetComponentClass()
+    {
+        return Appearance switch
+        {
+            Appearance.Round => "round",
+            Appearance.Extended => "extended",
+            _ => "round"
+        };
+    }
+
+    private string GetClassPosition()
+    {
+        if (CaptionPosition == CaptionPosition.Above)
+        {
+            return "caption-above";
+        }
+        else if (CaptionPosition == CaptionPosition.Inside)
+        {
+            return "caption-inside";
+        }
+
+        return null;
+    }
 }
