@@ -82,6 +82,7 @@ a, .btn-link {
 
 .piano-key {
     position: relative;
+    cursor: pointer;
 }
 
 .white-key {
