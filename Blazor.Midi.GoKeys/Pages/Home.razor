@@ -5,7 +5,7 @@
 
 <h1>Midi Go:Keys</h1>
 
-Work in progress
+			  Work in progress
 
 
 <div class="container">
@@ -22,22 +22,38 @@ Work in progress
 		<div class="functions">
 			<GKButton Caption="f1"
 					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;" />
+					  Style="flex: 1;"
+					  OnClick="NoYetCode"/>
 			<GKButton Caption="f2"
 					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;" />
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
 			<GKButton Caption="f3"
 					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;" />
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
 			<GKButton Caption="f4"
 					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;" />
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
 		</div>
 	</div>
 
 	<div class="column">
-		<GKButton Caption="piano" />
-		<GKButton Caption="string" />
+		<div class="items">
+			<GKButton class="item" Caption="piano"
+					  OnClick="@(() => PreselectClick("Ac.Piano"))" />
+			<GKButton class="item" Caption="e piano"
+					  OnClick="@(() => PreselectClick("E.Piano1"))" />
+			<GKButton class="item" Caption="strings"
+					  OnClick="@(() => PreselectClick("Ensemble Strings"))" />
+			<GKButton class="item" Caption="synth"
+					  OnClick="@(() => PreselectClick("Synth Lead"))" />
+			<GKButton class="item" Caption="Drums"
+					  OnClick="@(() => PreselectClick("Drums"))" />
+			<GKButton class="item" Caption="Dist.Guitar"
+					  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
+		</div>
 	</div>
 </div>
 
@@ -46,12 +62,12 @@ Work in progress
 	<div class="column">
 		@if (!ToneService.IsInitialized)
 		{
-			<p>Chargement...</p>
+			<p>Loading...</p>
 		}
 		else
 		{
 			<select @onchange="OnCategoryChanged">
-				<option value="">Sélectionner une catégorie</option>
+				<option value="">Select a category</option>
 				@foreach (var category in categories)
 				{
 					<option value="@category">@category</option>
@@ -71,4 +87,6 @@ Work in progress
 			</ul>
 		}
 	</div>
+	<div class="column"></div>
+	<div class="column"></div>
 </div>

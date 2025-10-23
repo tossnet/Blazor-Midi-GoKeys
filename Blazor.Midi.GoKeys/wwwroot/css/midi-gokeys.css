@@ -19,3 +19,15 @@
         flex-basis: 100%;
     }
 }
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.item {
+    width: 150px; /* ou flex-basis: 150px; */
+    height: 100px;
+    background-color: lightblue;
+}

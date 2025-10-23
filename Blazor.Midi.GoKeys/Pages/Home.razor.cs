@@ -70,6 +70,21 @@ public partial class Home : IAsyncDisposable
         UpdateMainContent();
     }
 
+    private async Task PreselectClick(string category)
+    {
+        selectedTones = ToneService.GetTonesByCategory(category);
+
+        if (selectedTones.Any())
+        {
+            await OnToneClick(selectedTones.First());
+        }
+    }
+    
+    private async Task NoYetCode()
+    {
+        await js.InvokeVoidAsync("alert", "Not yet implement");
+    }
+
     private void UpdateMainContent()
     {
         if (_selectedtone == null) return;
