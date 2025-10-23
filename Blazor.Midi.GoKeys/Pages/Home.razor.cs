@@ -2,7 +2,6 @@ using Blazor.Midi.GoKeys.Models;
 using Blazor.Midi.GoKeys.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Globalization;
 
 namespace Blazor.Midi.GoKeys.Pages;
 
