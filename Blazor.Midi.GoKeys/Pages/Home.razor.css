@@ -3,3 +3,18 @@
     width:385px;
     margin-top:20px;
 }
+
+.list-tones {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    list-style-type: none;
+    border: 7px solid #181818;
+    padding: 2px;
+    cursor: pointer;
+    font-size: 12px
+}
+
+    .list-tones li:hover {
+        background-color: #ffffff42;
+    }

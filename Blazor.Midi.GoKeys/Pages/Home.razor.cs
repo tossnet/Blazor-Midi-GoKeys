@@ -1,28 +1,85 @@
+using Blazor.Midi.GoKeys.Models;
+using Blazor.Midi.GoKeys.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Globalization;
 
 namespace Blazor.Midi.GoKeys.Pages;
 
 public partial class Home : IAsyncDisposable
 {
     [Inject] private IJSRuntime js { get; set; } = default!;
+    [Inject] private IToneService ToneService { get; set; } = default!;
 
-    private bool _connected = false;
+    private readonly HttpClient _http;
+    private bool _isConnected = false;
     private string? _connectionStatus = "disconnect";
-
+    private string? _mainContent = @"V-001 Electro Pop<br /><br /><span class='lcd-tall'>Concert Piano</span><br /><span class='lcd-small'>PR.108 Electro Pop2</span>";
+    private DotNetObjectReference<Home>? _dotNetRef;
     private IJSObjectReference JsModule { get; set; } = default!;
+    private List<string> categories = new();
+    private List<Tone> selectedTones = new();
+    private Tone? _selectedtone;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnInitializedAsync()
     {
-        if (!firstRender) return;
-
         JsModule ??= await js.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
+
+        // Register the callback
+        _dotNetRef = DotNetObjectReference.Create(this);
+        await JsModule.InvokeVoidAsync("setOnStateChangeCallback", _dotNetRef);
+
+        await ToneService.InitializeAsync();
+        categories = ToneService.GetCategories();
     }
+
     private async Task PowerClick()
     {
-        _connected = await JsModule.InvokeAsync<bool>("connectMIDI");
+        if (_isConnected)
+        {
+            _isConnected = await JsModule.InvokeAsync<bool>("disconnectMIDI");
+        }
+        else
+        {
+            _isConnected = await JsModule.InvokeAsync<bool>("connectMIDI");
+        }
 
-        _connectionStatus = _connected ? "connected" : " disconnect";
+         _connectionStatus = _isConnected ? "connected" : " disconnect";
+    }
+
+    [JSInvokable]
+    public void OnMidiStateChanged(string state, string portName)
+    {
+        _connectionStatus = $"{portName}: {state}";
+        _isConnected = state == "connected";
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnCategoryChanged(ChangeEventArgs e)
+    {
+        var category = e.Value?.ToString();
+        if (!string.IsNullOrEmpty(category))
+        {
+            selectedTones = ToneService.GetTonesByCategory(category);
+        }
+    }
+
+    private async Task OnToneClick(Tone tone)
+    {
+        _selectedtone = tone;
+        await JsModule.InvokeVoidAsync("sendProgramChange", 4, tone.MSB, tone.LSB, tone.PC);
+        UpdateMainContent();
+    }
+
+    private void UpdateMainContent()
+    {
+        if (_selectedtone == null) return;
+
+        _mainContent = $@"{_selectedtone.Num} {_selectedtone.Category}
+                        <br /><br />
+                        <span class='lcd-tall'>{_selectedtone.Name}</span>
+                        <br />
+                        <span class='lcd-small'>PR.108 Electro Pop2</span>";
     }
 
     public async ValueTask DisposeAsync()

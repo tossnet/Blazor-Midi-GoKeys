@@ -16,8 +16,9 @@ Work in progress
 	</div>
 
 	<div class="column">
-		<GKLCD Disabled="@(!_connected)"
-			   TextStates="@_connectionStatus" />
+		<GKLCD Disabled="@(!_isConnected)"
+			   TextStates="@_connectionStatus"
+			   MainContent="@_mainContent" />
 		<div class="functions">
 			<GKButton Caption="f1"
 					  CaptionPosition="CaptionPosition.Inside"
@@ -37,5 +38,37 @@ Work in progress
 	<div class="column">
 		<GKButton Caption="piano" />
 		<GKButton Caption="string" />
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="column">
+		@if (!ToneService.IsInitialized)
+		{
+			<p>Chargement...</p>
+		}
+		else
+		{
+			<select @onchange="OnCategoryChanged">
+				<option value="">Sélectionner une catégorie</option>
+				@foreach (var category in categories)
+				{
+					<option value="@category">@category</option>
+				}
+			</select>
+		}
+	</div>
+
+	<div class="column">
+		@if (selectedTones.Any())
+		{
+			<ul class="list-tones">
+				@foreach (var tone in selectedTones)
+				{
+					<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
+				}
+			</ul>
+		}
 	</div>
 </div>
