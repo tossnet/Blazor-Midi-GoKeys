@@ -1,0 +1,50 @@
+# Nettoie le repo : dotnet clean, supprime les bin/obj suivis par git, met à jour .gitignore et push
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        persist-credentials: true
+
+    - name: Setup .NET 10 SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '10.0.x'
+
+    - name: dotnet --info
+      run: dotnet --info
+
+    - name: dotnet clean (solution)
+      run: dotnet clean Blazor-Midi-GoKeys.slnx -c Release || true
+
+    - name: Remove tracked bin/obj, update .gitignore and push
+      env:
+        BRANCH: ${{ github.ref_name }}
+      run: |
+        # config author for commit
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+        # remove tracked bin/obj folders (ignore-unmatch avoids failure if none tracked)
+        find . -type d \( -name bin -o -name obj \) -prune -exec git rm -r --ignore-unmatch '{}' + || true
+
+        # ensure .gitignore contains bin/obj rules (won't duplicate if already present)
+        if ! grep -q "/bin/" .gitignore 2>/dev/null; then
+          printf "\n# Ignore build outputs\n**/bin/\n**/obj/\n" >> .gitignore
+        fi
+
+        # stage changes and commit if any
+        git add -A
+        git commit -m "chore: clean repo — remove build artifacts and update .gitignore" || echo "No changes to commit"
+
+        # push back to the current branch
+        git push origin HEAD:${BRANCH}
