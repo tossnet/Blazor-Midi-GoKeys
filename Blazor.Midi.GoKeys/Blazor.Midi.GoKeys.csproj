@@ -16,4 +16,9 @@
     </PackageReference>
   </ItemGroup>
 
+<ItemGroup>
+  <!-- Empêche l'inclusion automatique de tous les fichiers *.razor.js dans les assets -->
+  <Content Remove="**\*.razor.js" />
+</ItemGroup>
+
 </Project>

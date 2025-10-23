@@ -13,11 +13,6 @@
     "strict": true,
     "noEmitOnError": true
   },
-  "include": [
-    "wwwroot/**/*.ts",
-    "Pages/**/*.ts",
-    "Components/**/*.ts"
-  ],
   "exclude": [
     "node_modules",
     "wwwroot/**/*.js",
