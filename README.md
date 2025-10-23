@@ -18,7 +18,7 @@ This app demonstrates how Blazor can be used to **handle MIDI devices directly i
 ---
 
 ## 🚀 Live Demo
-> A live demo will soon be available on GitHub Pages or Azure Static Web Apps.
+> [https://tossnet.github.io/Blazor-Midi-GoKeys/](https://tossnet.github.io/Blazor-Midi-GoKeys/)
 
 ---
 
