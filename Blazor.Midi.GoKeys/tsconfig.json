@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+    /* Language and Environment */
+    "target": "ESNext",
+    "lib": [ "ESNext", "DOM" ],
+    /* Modules */
+    "module": "ESNext",
+    /* Emit */
+    "sourceMap": true,
+    "removeComments": true,
+    /* Type Checking */
+    "strict": true,
+    "noEmitOnError": true
+  },
+  "include": [
+    "wwwroot/**/*.ts",
+    "Pages/**/*.ts",
+    "Components/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "wwwroot/**/*.js",
+    "bin",
+    "obj"
+  ]
+}

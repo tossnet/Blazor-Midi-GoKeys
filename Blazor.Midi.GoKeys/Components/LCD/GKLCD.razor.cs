@@ -8,7 +8,7 @@ public partial class GKLCD : GKComponentBase
     [Parameter]
     public string? TextStates { get; set; }
 
-    private string GetClassDisabled()
+    private string? GetClassDisabled()
     {
         if (Disabled)
         {

@@ -8,15 +8,15 @@
 Work in progress
 
 
-
 <div class="container">
 	<div class="column">
 		<GKButton Caption="⏻"
 				  OnClick="PowerClick"
 				  Appearance="Appearance.Extended" />
 	</div>
+
 	<div class="column">
-		<GKLCD Disabled="@_connected"
+		<GKLCD Disabled="@(!_connected)"
 			   TextStates="@_connectionStatus" />
 		<div class="functions">
 			<GKButton Caption="f1"
@@ -33,12 +33,9 @@ Work in progress
 					  Style="flex: 1;" />
 		</div>
 	</div>
+
 	<div class="column">
 		<GKButton Caption="piano" />
 		<GKButton Caption="string" />
 	</div>
 </div>
-
-
-
-

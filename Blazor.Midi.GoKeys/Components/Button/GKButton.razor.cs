@@ -57,7 +57,7 @@ public partial class GKButton : GKComponentBase
         };
     }
 
-    private string GetClassPosition()
+    private string? GetClassPosition()
     {
         if (CaptionPosition == CaptionPosition.Above)
         {
