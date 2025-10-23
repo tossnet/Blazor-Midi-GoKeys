@@ -26,7 +26,7 @@ jobs:
    
       - name: Dotnet Publish
         run: 
-            dotnet publish --configuration Release -f net10.0.100-rc.2.25502.107
+            dotnet publish --configuration Release -f net10.0
 
       - name: Change base-tag in index.html to repo name
         run: sed -i 's/<base href="\/" \/>/<base href="\/${{ env.REPO_NAME }}\/" \/>/g' $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html
