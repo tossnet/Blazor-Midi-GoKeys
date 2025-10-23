@@ -423,6 +423,6 @@ FodyWeavers.xsd
 # TypeScript compiled JS files (only if generated from .ts files)
 # Uncomment the lines below ONLY if you generate .js files from .ts files
 # and you want to ignore the generated .js files
-# **/*.js
-!**/*.razor.js
+ **/*.js
+#!**/*.razor.js
 # !wwwroot/js/**/*.js
