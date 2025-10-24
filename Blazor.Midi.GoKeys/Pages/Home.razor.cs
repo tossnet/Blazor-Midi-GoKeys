@@ -12,13 +12,14 @@ public partial class Home : IAsyncDisposable
 
     private readonly HttpClient _http;
     private bool _isConnected = false;
-    private string? _connectionStatus = "disconnect";
+    private string? _connectionStatus = "Disconnect";
     private string? _mainContent = @"V-001 Electro Pop<br /><br /><span class='lcd-tall'>Concert Piano</span><br /><span class='lcd-small'>PR.108 Electro Pop2</span>";
     private DotNetObjectReference<Home>? _dotNetRef;
     private IJSObjectReference JsModule { get; set; } = default!;
     private List<string> categories = new();
     private List<Tone> selectedTones = new();
-    private Tone? _selectedtone;
+    private Tone? _selectedtone; 
+    private string? _searchText;
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,6 +31,8 @@ public partial class Home : IAsyncDisposable
 
         await ToneService.InitializeAsync();
         categories = ToneService.GetCategories();
+
+        await js.InvokeVoidAsync("gkClick_init");
     }
 
     private async Task PowerClick()
@@ -43,7 +46,7 @@ public partial class Home : IAsyncDisposable
             _isConnected = await JsModule.InvokeAsync<bool>("connectMIDI");
         }
 
-         _connectionStatus = _isConnected ? "connected" : " disconnect";
+         _connectionStatus = _isConnected ? "Donnected" : "Disconnect";
     }
 
     [JSInvokable]
@@ -84,6 +87,18 @@ public partial class Home : IAsyncDisposable
     {
         await js.InvokeVoidAsync("alert", "Not yet implement");
     }
+
+    
+    private void FilterTones(string? value)
+    {
+        _searchText = value;
+
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            selectedTones = ToneService.SearchTones(value);
+        }
+    }
+
 
     private void UpdateMainContent()
     {

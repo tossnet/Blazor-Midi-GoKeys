@@ -1,0 +1,11 @@
+﻿@namespace Blazor.Midi.GoKeys.Components
+
+@inherits GKComponentBase
+
+<input type="text"
+	   @bind:get="Value"
+	   @bind:set="OnValueSet"
+	   @bind:event="oninput"
+	   placeholder="@Placeholder"
+	   class="gk-textbox @Class"
+	   disabled="@(ParentDisabled | Disabled)" />

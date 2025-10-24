@@ -1,0 +1,18 @@
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    height: var( --height-top-row);
+}
+
+.github-mark {
+    height: 24px;
+    display: inline-block;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}

@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blazor.Midi.GoKeys</title>
     <base href="/" />
+
+    <meta property="og:title" content="Blazor Midi GoKeys" />
+    <meta name="Description" content="Blazor application that uses the Web MIDI API to connect to the Roland GoKeys piano" />
+    <meta property="og:description" content="Blazor application that uses the Web MIDI API to connect to the Roland GoKeys piano" />
+    <meta property="og:image" content="https://tossnet.github.io/Blazor-Midi-GoKeys/thumbnail.jpg" />
+
     <!--<link rel="preload" id="webassembly" />-->
     <link rel="icon" type="image/png" href="favicon.png" />
     <link rel="stylesheet" href="css/app.css" />
@@ -33,7 +39,7 @@
             <div class="piano-key black-key" data-note="G#"></div>
             <div class="piano-key black-key" data-note="A#"></div>
         </div>
-        <div class="loading-progress-text">.net8 Loading...</div>
+        <div class="loading-progress-text">(.NET9) Loading...</div>
     </div>
 
     <div id="blazor-error-ui">
@@ -44,6 +50,7 @@
     <!--<script src="_framework/blazor.webassembly#[.{fingerprint}].js" autostart="true"></script>-->
     <script src="_framework/blazor.webassembly.js" autostart="true"></script>
     <script src="js/piano.js"></script>
+    <script src="js/click.js"></script>
 </body>
 
 </html>

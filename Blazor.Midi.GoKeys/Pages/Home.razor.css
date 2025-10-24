@@ -1,10 +1,30 @@
+.page-container {
+    flex: 1; /* Prend l'espace restant */
+    overflow-y: auto; /* Scroll interne si nécessaire */
+    min-height: 0; /* Important pour Firefox */
+}
+
+
+
+
+.container[id="2"] {
+    box-sizing: border-box;
+    max-height: calc(100vh - var(--menu-height));
+    overflow-y: auto;
+    /* facultatif : padding ou gap si nécessaire */
+    /* padding: 0.5rem; */
+}
+
 .functions {
     display:flex;
-    width:385px;
+    width:355px;
     margin-top:20px;
 }
 
 .list-tones {
+    box-sizing: border-box;
+    max-height: calc(100vh - var(--menu-height));
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -12,9 +32,34 @@
     border: 7px solid #181818;
     padding: 2px;
     cursor: pointer;
-    font-size: 16px
+    font-size: 16px;
+    /* Mobile / UA defaults to remove the grey/white tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    /* Prevent selection and improve touch behaviour */
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    /* Remove inner focus ring from some browsers */
+    outline: none;
 }
 
     .list-tones li:hover {
         background-color: #ffffff42;
+    }
+
+.autocomplete-input {
+    /*width: 100%;*/
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+    .autocomplete-input:focus {
+        outline: none;
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
     }

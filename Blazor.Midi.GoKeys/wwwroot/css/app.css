@@ -1,7 +1,13 @@
+:root {
+    --height-top-row:40px; 
+}
+
 html, body {
     font-family: 'Blinker', sans-serif, Helvetica, Arial;
     background-color: #31384B;
     color: #ffffff;
+    height: 100%;
+    overflow: hidden;
 }
 
 h1:focus {

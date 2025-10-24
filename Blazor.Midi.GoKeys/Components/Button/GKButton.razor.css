@@ -1,4 +1,5 @@
 .gk-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,7 +7,7 @@
 }
 
 .gk-caption {
-    font-family: "Blinker", sans-serif;
+    font-family: 'Blinker', sans-serif;
     font-weight: 400;
     font-style: normal;
     color: white;
@@ -24,7 +25,7 @@
     }
 
 .gk-container.caption-inside {
-    position: relative;
+    position: absolute;
 }
 
     .gk-container.caption-inside .gk-caption {
@@ -41,7 +42,7 @@
     background: linear-gradient(0deg, #222, #111);
 }
 
-.gk-start {
+.gk-button {
     position: relative;
     background: linear-gradient(0deg, #111, #222);
     border: 2px solid #000;
@@ -49,22 +50,36 @@
     border-radius: 25px;
     cursor: pointer;
     overflow: hidden;
+    /* Mobile / UA defaults to remove the grey/white tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    -moz-appearance: none;
+    /* Prevent selection and improve touch behaviour */
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    /* Remove inner focus ring from some browsers */
+    outline: none;
 }
 
-    .gk-start:hover {
-        transform: scale(0.99);
+    .gk-button.focused, 
+    .gk-button:focus {
+        outline: 1px dotted #000;
+        outline-offset: -4px;
     }
 
-    .gk-start:active {
+    .gk-button:active,
+    .gk-button.active {
         background: linear-gradient(270deg, #111, #222);
     }
 
-    .gk-start.round {
+    .gk-button.round {
         width: 40px;
         height: 40px;
     }
 
-    .gk-start.extended {
+    .gk-button.extended {
         width: 55px;
         height: 30px;
     }

@@ -2,11 +2,11 @@
 
 @inherits GKComponentBase
 
-<div class="gk-container" style="@Style">
+<div class="gk-container @Class" style="@Style">
     <div class="gk-caption @GetClassPosition()">@Caption</div>
 
     <button @onclick="@OnClickHandlerAsync"
-            class="gk-start @GetComponentClass() @Class"
+            class="gk-button @GetComponentClass()"
             disabled="@(ParentDisabled | Disabled)"
             
             @attributes="Attributes">

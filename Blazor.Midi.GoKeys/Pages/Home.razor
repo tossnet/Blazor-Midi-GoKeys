@@ -1,92 +1,97 @@
 ﻿@page "/"
 
-
 <PageTitle>Midi-GoKeys</PageTitle>
 
-<h1>Midi Go:Keys</h1>
+<div class="page-container">
+	<div class="container">
+		<div class="column">
+			<GKButton Caption="⏻"
+					  OnClick="PowerClick"
+					  Appearance="Appearance.Extended" />
+		</div>
 
-			  Work in progress
+		<div class="column">
+			<GKLCD Disabled="@(!_isConnected)"
+				   TextStates="@_connectionStatus"
+				   MainContent="@_mainContent" />
+			<div class="functions">
+				<GKButton Caption="f1"
+						  CaptionPosition="CaptionPosition.Inside"
+						  Style="flex: 1;"
+						  OnClick="NoYetCode" />
+				<GKButton Caption="f2"
+						  CaptionPosition="CaptionPosition.Inside"
+						  Style="flex: 1;"
+						  OnClick="NoYetCode" />
+				<GKButton Caption="f3"
+						  CaptionPosition="CaptionPosition.Inside"
+						  Style="flex: 1;"
+						  OnClick="NoYetCode" />
+				<GKButton Caption="f4"
+						  CaptionPosition="CaptionPosition.Inside"
+						  Style="flex: 1;"
+						  OnClick="NoYetCode" />
+			</div>
+		</div>
 
-
-<div class="container">
-	<div class="column">
-		<GKButton Caption="⏻"
-				  OnClick="PowerClick"
-				  Appearance="Appearance.Extended" />
-	</div>
-
-	<div class="column">
-		<GKLCD Disabled="@(!_isConnected)"
-			   TextStates="@_connectionStatus"
-			   MainContent="@_mainContent" />
-		<div class="functions">
-			<GKButton Caption="f1"
-					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;"
-					  OnClick="NoYetCode"/>
-			<GKButton Caption="f2"
-					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
-			<GKButton Caption="f3"
-					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
-			<GKButton Caption="f4"
-					  CaptionPosition="CaptionPosition.Inside"
-					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
+		<div class="column">
+			<div class="items">
+				<GKButton class="item" Caption="piano"
+						  OnClick="@(() => PreselectClick("Ac.Piano"))" />
+				<GKButton class="item" Caption="e piano"
+						  OnClick="@(() => PreselectClick("E.Piano1"))" />
+				<GKButton class="item" Caption="strings"
+						  OnClick="@(() => PreselectClick("Ensemble Strings"))" />
+				<GKButton class="item" Caption="synth"
+						  OnClick="@(() => PreselectClick("Synth Lead"))" />
+				<GKButton class="item" Caption="Drums"
+						  OnClick="@(() => PreselectClick("Drums"))" />
+				<GKButton class="item" Caption="Dist.Guitar"
+						  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
+			</div>
 		</div>
 	</div>
 
-	<div class="column">
-		<div class="items">
-			<GKButton class="item" Caption="piano"
-					  OnClick="@(() => PreselectClick("Ac.Piano"))" />
-			<GKButton class="item" Caption="e piano"
-					  OnClick="@(() => PreselectClick("E.Piano1"))" />
-			<GKButton class="item" Caption="strings"
-					  OnClick="@(() => PreselectClick("Ensemble Strings"))" />
-			<GKButton class="item" Caption="synth"
-					  OnClick="@(() => PreselectClick("Synth Lead"))" />
-			<GKButton class="item" Caption="Drums"
-					  OnClick="@(() => PreselectClick("Drums"))" />
-			<GKButton class="item" Caption="Dist.Guitar"
-					  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
+
+
+	<div class="container">
+		<div class="column">
+			@if (ToneService.IsInitialized)
+			{
+				<GKTextBox @bind-Value:get="_searchText"
+						   @bind-Value:set="FilterTones"  
+						   Placeholder="Search a tone..." />
+			}
 		</div>
-	</div>
-</div>
 
+		<div class="column">
+			@if (!ToneService.IsInitialized)
+			{
+				<p>Loading...</p>
+			}
+			else
+			{
+				<select @onchange="OnCategoryChanged">
+					<option value="">Select a category</option>
+					@foreach (var category in categories)
+					{
+						<option value="@category">@category</option>
+					}
+				</select>
 
-<div class="container">
-	<div class="column">
-		@if (!ToneService.IsInitialized)
-		{
-			<p>Loading...</p>
-		}
-		else
-		{
-			<select @onchange="OnCategoryChanged">
-				<option value="">Select a category</option>
-				@foreach (var category in categories)
-				{
-					<option value="@category">@category</option>
-				}
-			</select>
-		}
+				<br />
+			}
+			@if (selectedTones.Any())
+			{
+				<ul class="list-tones">
+					@foreach (var tone in selectedTones)
+					{
+						<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
+					}
+				</ul>
+			}
+		</div>
+		<div class="column"></div>
+		<div class="column"></div>
 	</div>
-
-	<div class="column">
-		@if (selectedTones.Any())
-		{
-			<ul class="list-tones">
-				@foreach (var tone in selectedTones)
-				{
-					<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
-				}
-			</ul>
-		}
-	</div>
-	<div class="column"></div>
-	<div class="column"></div>
 </div>
