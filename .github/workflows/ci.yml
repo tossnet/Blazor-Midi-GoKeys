@@ -23,29 +23,11 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '9.x'
-          
-      # DEBUG: lister les fichiers Pages et les .razor.js trouvés (diagnostic)
-      - name: List Pages directory and find razor.js files
-        run: |
-          echo "Files in Pages:"
-          ls -la Blazor.Midi.GoKeys/Pages || true
-          echo "All .razor.js files in repo:"
-          find . -type f -name "*.razor.js" -print || true
-          echo "List of .razor files for comparison:"
-          find . -type f -name "*.razor" -print || true
 
-      # OPTIONNEL: supprimer les .razor.js orphelins (décommente si tu veux les auto-supprimer)
-      # Attention: utilises ceci seulement si tu es sûr que ces fichiers sont des artéfacts générés et ne doivent pas être versionnés.
-      - name: Remove orphan .razor.js files (optional)
+      - name: Dotnet Build
         run: |
-          find . -type f -name "*.razor.js" -print0 | while IFS= read -r -d '' f; do
-            proto="${f%.razor.js}.razor"
-            if [ ! -f "$proto" ]; then
-              echo "Removing orphan $f (no $proto)"
-              rm "$f"
-            fi
-          done
-      
+          dotnet build Blazor.Midi.GoKeys/Blazor.Midi.GoKeys.csproj --configuration Release -f net9.0
+
       - name: Dotnet Publish
         run: 
             dotnet publish --configuration Release -f net9.0
