@@ -14,7 +14,7 @@
 }
 
 .column {
-    flex: 1 1 140px; /* Grow, shrink, base of 1400px */
+   /* flex: 1 1 140px;*/ /* Grow, shrink, base of 1400px */
     padding: 0.5rem;
 }
 

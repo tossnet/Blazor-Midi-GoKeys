@@ -7,7 +7,7 @@
     gainNode.connect(ctx.destination);
 
     try {
-        const res = await fetch('/touch.wav');
+        const res = await fetch('touch.wav');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.arrayBuffer();
         sampleBuffer = await ctx.decodeAudioData(data);

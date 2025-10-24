@@ -25,14 +25,18 @@
     box-sizing: border-box;
     max-height: calc(100vh - var(--menu-height));
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    column-count: 2;
+    column-gap: 20px;
+    -webkit-columns: 3;
+    -moz-columns: 3;
     gap: 5px;
     list-style-type: none;
     border: 7px solid #181818;
     padding: 2px;
     cursor: pointer;
     font-size: 16px;
+    max-height: calc(100vh - var(--menu-height));
+    overflow-y: auto;
     /* Mobile / UA defaults to remove the grey/white tap highlight */
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: none;
@@ -48,18 +52,4 @@
 
     .list-tones li:hover {
         background-color: #ffffff42;
-    }
-
-.autocomplete-input {
-    /*width: 100%;*/
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-    .autocomplete-input:focus {
-        outline: none;
-        border-color: #4CAF50;
-        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
     }
