@@ -23,7 +23,7 @@ public partial class Home : IAsyncDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        JsModule ??= await js.InvokeAsync<IJSObjectReference>("import", "./Pages/Home.razor.js");
+        JsModule ??= await js.InvokeAsync<IJSObjectReference>("import", "./js/midi.js");
 
         // Register the callback
         _dotNetRef = DotNetObjectReference.Create(this);
