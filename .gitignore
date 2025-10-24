@@ -418,12 +418,12 @@ FodyWeavers.xsd
 *.msp
 
 # TypeScript build info
-#*.tsbuildinfo
+*.tsbuildinfo
 
 # TypeScript compiled JS files (only if generated from .ts files)
 # Uncomment the lines below ONLY if you generate .js files from .ts files
 # and you want to ignore the generated .js files
-# **/*.js
+**/*.js
 # **/*.razor.js.map
 #!**/*.razor.js
 # !wwwroot/js/**/*.js

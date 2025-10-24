@@ -7,15 +7,14 @@
     /* Modules */
     "module": "ESNext",
     /* Emit */
-    "sourceMap": true,
+    "sourceMap": false,
     "removeComments": true,
     /* Type Checking */
-    "strict": true,
+    "strict": false,
     "noEmitOnError": true
   },
   "exclude": [
     "node_modules",
-    "wwwroot/**/*.js",
     "bin",
     "obj"
   ]

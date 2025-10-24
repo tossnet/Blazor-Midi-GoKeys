@@ -1,4 +1,5 @@
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+﻿const audioCtx = new ((window as any).AudioContext || (window as any).webkitAudioContext)();
+
 const notesFreq = {
     C: 261.63,
     'C#': 277.18,
@@ -13,23 +14,28 @@ const notesFreq = {
     'A#': 466.16,
     B: 493.88
 };
-const keys = document.querySelectorAll('.piano-key');
+
+const keys = document.querySelectorAll<HTMLElement>('.piano-key');
 keys.forEach(key => {
     key.addEventListener('click', () => {
         const note = key.dataset?.note;
         const freq = notesFreq[note];
-        if (!freq)
-            return;
+        if (!freq) return;
+
         if (audioCtx.state === 'suspended') {
             audioCtx.resume();
         }
+
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
+
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+
         osc.connect(gain);
         gain.connect(audioCtx.destination);
+
         osc.start();
         osc.stop(audioCtx.currentTime + 0.2);
     });

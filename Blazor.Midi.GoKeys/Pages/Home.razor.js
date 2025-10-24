@@ -2,20 +2,15 @@ let midiAccess = null;
 let output = null;
 const instrumentName = ['go:keys', 'roland', 'bluetooth'];
 let dotNetHelper = null;
-
 export function setOnStateChangeCallback(dotnetRef) {
     dotNetHelper = dotnetRef;
 }
-
 export async function connectMIDI() {
     if (!navigator.requestMIDIAccess) {
         alert('Web MIDI API not supported in this browser.');
         return false;
     }
-
     midiAccess = await navigator.requestMIDIAccess();
-
-
     if (midiAccess) {
         midiAccess.onstatechange = (event) => {
             const eventPort = event?.port;
@@ -50,7 +45,6 @@ export async function connectMIDI() {
     }
     return true;
 }
-
 export async function disconnectMIDI() {
     try {
         if (output) {
@@ -77,69 +71,37 @@ export async function disconnectMIDI() {
         return true;
     }
 }
-
 export function sendProgramChange(channel, msb, lsb, pc) {
     if (!output)
         return;
-
     console.log(`PC to channel ${channel}: MSB=${msb}, LSB=${lsb}, PC=${pc}`);
-
     const ch = Math.max(1, Math.min(channel, 16)) - 1;
     const msbVal = Math.max(0, Math.min(msb, 127));
     const lsbVal = Math.max(0, Math.min(lsb, 127));
     const pcVal = Math.max(1, Math.min(pc, 128)) - 1;
-
     output.send([0xB0 | ch, 0x00, msbVal]);
     output.send([0xB0 | ch, 0x20, lsbVal]);
     output.send([0xC0 | ch, pcVal]);
-
-    //Play sample :
-    //0x90 + 3 pour le canal 4
-    const notes = [48, 55, 60]; // DO SOL DO
-    const velocity = 40; // Volume (velocity) between 0 and 127
-    const duration = 40; 
-
-    //// Send "Note On" messages for all three notes
-    //notes.forEach((note) => {
-    //    const noteOnMessage = [0x93, note, velocity]; // Channel 1, note, velocity
-    //    output.send(noteOnMessage);
-    //});
-
-    //// Stop the notes after 1 second with "Note Off" messages
-    //setTimeout(() => {
-    //    notes.forEach((note) => {
-    //        const noteOffMessage = [0x83, note, 0]; // Channel 1, note, velocity 0
-    //        output.send(noteOffMessage);
-    //    });
-    //}, duration);
-
+    const notes = [48, 55, 60];
+    const velocity = 40;
+    const duration = 40;
     const playNote = (note, delay) => {
         setTimeout(() => {
-           
-            output.send([0x93, note, velocity]); 
-            
+            output.send([0x93, note, velocity]);
             setTimeout(() => {
-                output.send([0x83, note, 0]); 
+                output.send([0x83, note, 0]);
             }, duration);
         }, delay);
     };
-
-    // Jouer les notes successivement avec des délais
     notes.forEach((note, index) => {
-        playNote(note, index * (duration + 100)); // Ajouter un délai entre les notes
+        playNote(note, index * (duration + 100));
     });
 }
-
-// Function to handle incoming MIDI messages
 function handleMIDIMessage(message) {
     const [status, key, velocity] = message.data;
-
-    // Check if the message is a "Note On" event (key pressed)
     if (status >= 144 && status < 160) {
         console.log(`Key pressed: ${key}, Velocity: ${velocity}`);
     }
-
-    // Check if the message is a "Note Off" event (key released)
     if (status >= 128 && status < 144) {
         console.log(`Key released: ${key}`);
     }
