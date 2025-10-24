@@ -59,7 +59,7 @@
 			@if (ToneService.IsInitialized)
 			{
 				<GKTextBox @bind-Value:get="_searchText"
-						   @bind-Value:set="FilterTones"  
+						   @bind-Value:set="FilterTones"
 						   Placeholder="Search a tone..." />
 			}
 		</div>
@@ -94,4 +94,30 @@
 		<div class="column"></div>
 		<div class="column"></div>
 	</div>
+
+
+	<div class="container">
+		<div class="column">
+			<ul id="keyboard">
+				<li data-note="C" class="piano-key white"></li>
+				<li data-note="C#" class="piano-key black"></li>
+				<li data-note="D" class="piano-key white offset"></li>
+				<li data-note="D#" class="piano-key black"></li>
+				<li data-note="E" class="piano-key white offset offset-right"></li>
+				<li data-note="F" class="piano-key white"></li>
+				<li data-note="F#" class="piano-key black"></li>
+				<li data-note="G" class="piano-key white offset"></li>
+				<li data-note="G#" class="piano-key black"></li>
+				<li data-note="A" class="piano-key white offset"></li>
+				<li data-note="A#" class="piano-key black"></li>
+				<li data-note="B" class="piano-key white offset offset-right"></li>
+				<li data-note="C2" class="piano-key white"></li>
+				<li data-note="C#2" class="piano-key black"></li>
+				<li data-note="D2" class="piano-key white offset"></li>
+				<li data-note="D#2" class="piano-key black"></li>
+				<li data-note="E2" class="piano-key white offset"></li>
+			</ul>
+		</div>
+	</div>
+
 </div>

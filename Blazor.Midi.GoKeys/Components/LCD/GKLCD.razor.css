@@ -95,16 +95,7 @@
     text-transform: uppercase;
 }
 
-.lcd-small {
-    font-size: 14px;
-    opacity: 0.9;
-}
 
-.lcd-tall {
-    font-size: 22px;
-    transform: scaleY(1.8);
-    display: inline-block;
-}
 
 .lcd-menu {
     display: block;

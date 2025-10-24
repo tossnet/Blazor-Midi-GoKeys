@@ -1,0 +1,36 @@
+﻿
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0rem;
+    padding: 1rem;
+}
+
+.column {
+    /* flex: 1 1 140px;*/ /* Grow, shrink, base of 1400px */
+    padding: 0.5rem;
+}
+
+/* If you want to force 1 column on mobile devices */
+@media (max-width: 768px) {
+    .column {
+        flex-basis: 100%;
+    }
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.item {
+    width: 150px; /* ou flex-basis: 150px; */
+    height: 100px;
+}

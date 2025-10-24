@@ -1,6 +1,6 @@
 # 🎹 Blazor-Midi-GoKeys
 
-**Blazor-Midi-GoKeys** is an interactive web application built with **Blazor WebAssembly** that allows you to **connect, visualize, and interact with the Roland GO:KEYS musical keyboard**.
+**Blazor-Midi-GoKeys** is an interactive web application built with **Blazor WebAssembly** that allows you to **connect, visualize, and interact with the Roland Go:Keys 3/5 musical keyboard**.
 
 This app demonstrates how Blazor can be used to **handle MIDI devices directly in the browser**, combining the power of **C#**, **WebAssembly**, and the **Web MIDI API**.
 

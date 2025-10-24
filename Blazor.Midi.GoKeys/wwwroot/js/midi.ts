@@ -30,12 +30,33 @@ export async function connectMIDI() {
                 }
             }
         };
+
         midiAccess.inputs.forEach((input) => {
             console.log('Listening to MIDI input:', input.name);
             input.onmidimessage = (message) => {
                 handleMIDIMessage(message);
             };
         });
+
+        // Fonction commune pour gérer les interactions avec les touches
+        const handlePianoKeyInteraction = (event: Event) => {
+            const target = event.target as HTMLElement;
+            if (target && target.classList.contains('piano-key')) {
+                const note = target.dataset?.note;
+                if (note && output) {
+                    console.log(`Piano key ${event.type}:`, note);
+                    const midiNote = noteNameToMidi(note, 4);
+                    playNote(midiNote, 100, 1000);
+                }
+            }
+        };
+
+        // Écouter plusieurs types d'événements
+        const eventTypes = ['touchstart', 'mousedown'];
+        eventTypes.forEach(eventType => {
+            document.addEventListener(eventType, handlePianoKeyInteraction);
+        });
+
     }
     midiAccess.outputs.forEach((out) => {
         console.log('output', out && out.name);
@@ -143,4 +164,40 @@ function handleMIDIMessage(message) {
     if (status >= 128 && status < 144) {
         console.log(`Key released: ${key}`);
     }
+}
+
+function playNote(note = 60, velocity = 127, duration = 500) {
+    // Note on: [144, note, velocity]
+    // 144 = 0x90, note, velocity
+    output.send([0x93, note, velocity]); // 0x90 = Note On, channel 1
+    // Note off after `duration` milliseconds
+    setTimeout(() => {
+        output.send([0x83, note, 0]); // 0x80 = Note Off, channel 1
+    }, duration);
+}
+
+// Fonction pour convertir le nom de note en numéro MIDI
+function noteNameToMidi(noteName: string, octave: number = 4): number {
+    const noteMap: { [key: string]: number } = {
+        'C': 0,
+        'C#': 1,
+        'D': 2,
+        'D#': 3,
+        'E': 4,
+        'F': 5,
+        'F#': 6,
+        'G': 7,
+        'G#': 8,
+        'A': 9,
+        'A#': 10,
+        'B': 11
+    };
+
+    const noteValue = noteMap[noteName.toUpperCase()];
+    if (noteValue === undefined) {
+        console.warn(`Note inconnue: ${noteName}`);
+        return 60; // C4 par défaut
+    }
+
+    return (octave + 1) * 12 + noteValue;
 }
