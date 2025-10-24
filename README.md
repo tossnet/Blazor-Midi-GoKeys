@@ -5,9 +5,7 @@
 This app demonstrates how Blazor can be used to **handle MIDI devices directly in the browser**, combining the power of **C#**, **WebAssembly**, and the **Web MIDI API**.
 
 ---
-
-<img width="872" height="434" alt="image" src="https://github.com/user-attachments/assets/6eb09581-1bfe-4735-98c7-802d42cf9070" />
-
+[<img width="872" height="434" alt="image" src="https://github.com/user-attachments/assets/6eb09581-1bfe-4735-98c7-802d42cf9070" />](https://tossnet.github.io/Blazor-Midi-GoKeys/)
 
 
 ## ✨ Main Features
