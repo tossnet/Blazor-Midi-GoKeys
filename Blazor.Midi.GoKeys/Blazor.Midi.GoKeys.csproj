@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Pages\Home.razor.ts" />
+    <None Include="wwwroot\js\midi.ts" />
   </ItemGroup>
 
   <ItemGroup>
