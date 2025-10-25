@@ -1,29 +1,13 @@
-.page-container {
-    flex: 1; /* Prend l'espace restant */
-    overflow-y: auto; /* Scroll interne si nécessaire */
-    min-height: 0; /* Important pour Firefox */
-}
 
-
-
-
-.container[id="2"] {
-    box-sizing: border-box;
-    max-height: calc(100vh - var(--menu-height));
-    overflow-y: auto;
-    /* facultatif : padding ou gap si nécessaire */
-    /* padding: 0.5rem; */
-}
 
 .functions {
     display:flex;
-    width:355px;
     margin-top:20px;
 }
 
 .list-tones {
     box-sizing: border-box;
-    max-height: calc(100vh - var(--menu-height));
+    max-height: 100%;
     overflow-y: auto;
     column-count: 2;
     column-gap: 20px;
@@ -35,7 +19,6 @@
     padding: 2px;
     cursor: pointer;
     font-size: 16px;
-    max-height: calc(100vh - var(--menu-height));
     overflow-y: auto;
     /* Mobile / UA defaults to remove the grey/white tap highlight */
     -webkit-tap-highlight-color: transparent;
@@ -54,8 +37,6 @@
         background-color: #ffffff42;
     }
 
-
-/*  */
 :root {
     --keyboard: hsl(300, 100%, 16%);
     --keyboard-shadow: hsla(19, 50%, 66%, 0.2);

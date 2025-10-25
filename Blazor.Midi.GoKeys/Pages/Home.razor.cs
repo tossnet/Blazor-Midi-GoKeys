@@ -10,7 +10,6 @@ public partial class Home : IAsyncDisposable
     [Inject] private IJSRuntime js { get; set; } = default!;
     [Inject] private IToneService ToneService { get; set; } = default!;
 
-    private readonly HttpClient _http;
     private bool _isConnected = false;
     private string? _connectionStatus = "Disconnect";
     private string? _mainContent = @"V-001 Electro Pop<br /><br /><span class='lcd-tall'>Concert Piano</span><br /><span class='lcd-small'>PR.108 Electro Pop2</span>";

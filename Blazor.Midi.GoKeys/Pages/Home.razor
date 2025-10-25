@@ -2,122 +2,142 @@
 
 <PageTitle>Midi-GoKeys</PageTitle>
 
-<div class="page-container">
-	<div class="container">
-		<div class="column">
-			<GKButton Caption="⏻"
-					  OnClick="PowerClick"
-					  Appearance="Appearance.Extended" />
-		</div>
 
-		<div class="column">
-			<GKLCD Disabled="@(!_isConnected)"
-				   TextStates="@_connectionStatus"
-				   MainContent="@_mainContent" />
-			<div class="functions">
-				<GKButton Caption="f1"
-						  CaptionPosition="CaptionPosition.Inside"
-						  Style="flex: 1;"
-						  OnClick="NoYetCode" />
-				<GKButton Caption="f2"
-						  CaptionPosition="CaptionPosition.Inside"
-						  Style="flex: 1;"
-						  OnClick="NoYetCode" />
-				<GKButton Caption="f3"
-						  CaptionPosition="CaptionPosition.Inside"
-						  Style="flex: 1;"
-						  OnClick="NoYetCode" />
-				<GKButton Caption="f4"
-						  CaptionPosition="CaptionPosition.Inside"
-						  Style="flex: 1;"
-						  OnClick="NoYetCode" />
-			</div>
-		</div>
+<div class="row-2">
+	<div class="box box-4">
+		<GKButton Caption="⏻"
+				  OnClick="PowerClick"
+				  Appearance="Appearance.Extended" />
+	</div>
 
-		<div class="column">
-			<div class="items">
-				<GKButton class="item" Caption="piano"
-						  OnClick="@(() => PreselectClick("Ac.Piano"))" />
-				<GKButton class="item" Caption="e piano"
-						  OnClick="@(() => PreselectClick("E.Piano1"))" />
-				<GKButton class="item" Caption="strings"
-						  OnClick="@(() => PreselectClick("Ensemble Strings"))" />
-				<GKButton class="item" Caption="synth"
-						  OnClick="@(() => PreselectClick("Synth Lead"))" />
-				<GKButton class="item" Caption="Drums"
-						  OnClick="@(() => PreselectClick("Drums"))" />
-				<GKButton class="item" Caption="Dist.Guitar"
-						  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
-			</div>
+	<div class="box box-5">
+		<GKLCD Disabled="@(!_isConnected)"
+			   TextStates="@_connectionStatus"
+			   MainContent="@_mainContent" />
+		<div class="functions">
+			<GKButton Caption="f1"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
+			<GKButton Caption="f2"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
+			<GKButton Caption="f3"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
+			<GKButton Caption="f4"
+					  CaptionPosition="CaptionPosition.Inside"
+					  Style="flex: 1;"
+					  OnClick="NoYetCode" />
 		</div>
 	</div>
 
-
-
-	<div class="container">
-		<div class="column">
-			@if (ToneService.IsInitialized)
-			{
-				<GKTextBox @bind-Value:get="_searchText"
-						   @bind-Value:set="FilterTones"
-						   Placeholder="Search a tone..." />
-			}
+	<div class="box box-6">
+		<div class="items">
+			<GKButton class="item" 
+				      Caption="piano"
+					  OnClick="@(() => PreselectClick("Ac.Piano"))" />
+			<GKButton class="item"
+					  Caption="e piano"
+					  OnClick="@(() => PreselectClick("E.Piano1"))" />
+			<GKButton class="item"
+					  Caption="strings"
+					  OnClick="@(() => PreselectClick("Ensemble Strings"))" />
+			<GKButton class="item"
+					  Caption="synth"
+					  OnClick="@(() => PreselectClick("Synth Lead"))" />
+			<GKButton class="item"
+					  Caption="Drums"
+					  OnClick="@(() => PreselectClick("Drums"))" />
+			<GKButton class="item"
+					  Caption="Dist.Guitar"
+					  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
 		</div>
+	</div>
+</div>
 
-		<div class="column">
-			@if (!ToneService.IsInitialized)
-			{
-				<p>Loading...</p>
-			}
-			else
-			{
-				<select @onchange="OnCategoryChanged">
-					<option value="">Select a category</option>
-					@foreach (var category in categories)
-					{
-						<option value="@category">@category</option>
-					}
-				</select>
 
-				<br />
-			}
-			@if (selectedTones.Any())
-			{
-				<ul class="list-tones">
-					@foreach (var tone in selectedTones)
-					{
-						<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
-					}
-				</ul>
-			}
-		</div>
-		<div class="column"></div>
-		<div class="column"></div>
+
+<div class="row-3">
+	<div class="box box-7">
+		@if (ToneService.IsInitialized)
+		{
+			<GKTextBox @bind-Value:get="_searchText"
+					   @bind-Value:set="FilterTones"
+					   Placeholder="Search a tone..." />
+		}
 	</div>
 
+	<div class="box box-8">
+		@if (!ToneService.IsInitialized)
+		{
+			<p>Loading...</p>
+		}
+		else
+		{
+			<select @onchange="OnCategoryChanged">
+				<option value="">Select a category</option>
+				@foreach (var category in categories)
+				{
+					<option value="@category">@category</option>
+				}
+			</select>
 
-	<div class="container">
-		<div class="column">
-			<ul id="keyboard">
-				<li data-note="C" class="piano-key white"></li>
-				<li data-note="C#" class="piano-key black"></li>
-				<li data-note="D" class="piano-key white offset"></li>
-				<li data-note="D#" class="piano-key black"></li>
-				<li data-note="E" class="piano-key white offset offset-right"></li>
-				<li data-note="F" class="piano-key white"></li>
-				<li data-note="F#" class="piano-key black"></li>
-				<li data-note="G" class="piano-key white offset"></li>
-				<li data-note="G#" class="piano-key black"></li>
-				<li data-note="A" class="piano-key white offset"></li>
-				<li data-note="A#" class="piano-key black"></li>
-				<li data-note="B" class="piano-key white offset offset-right"></li>
-				<li data-note="C2" class="piano-key white"></li>
-				<li data-note="C#2" class="piano-key black"></li>
-				<li data-note="D2" class="piano-key white offset"></li>
-				<li data-note="D#2" class="piano-key black"></li>
-				<li data-note="E2" class="piano-key white offset"></li>
+			<br />
+		}
+		@if (selectedTones.Any())
+		{
+			<ul class="list-tones">
+				@foreach (var tone in selectedTones)
+				{
+					<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
+				}
 			</ul>
+		}
+	</div>
+</div>
+
+
+<div class="row-4">
+	<div class="box box-9">
+		<div id="keyboard">
+			<div class="piano-key white" data-note="C"></div>
+			<div class="piano-key black" data-note="C#"></div>
+			<div class="piano-key white offset" data-note="D"></div>
+			<div class="piano-key black" data-note="D#"></div>
+			<div class="piano-key white offset offset-right" data-note="E"></div>
+			<div class="piano-key white" data-note="F"></div>
+			<div class="piano-key black" data-note="F#"></div>
+			<div class="piano-key white offset" data-note="G"></div>
+			<div class="piano-key black" data-note="G#"></div>
+			<div class="piano-key white offset" data-note="A"></div>
+			<div class="piano-key black" data-note="A#"></div>
+			<div class="piano-key white offset offset-right" data-note="B"></div>
+			<div class="piano-key white" data-note="C2"></div>
+			<div class="piano-key black" data-note="C#2"></div>
+			<div class="piano-key white offset" data-note="D2"></div>
+			<div class="piano-key black" data-note="D#2"></div>
+			<div class="piano-key white offset" data-note="E2"></div>
+		</div>
+
+		<div class="piano-loading">
+			<!-- White keys -->
+			<div class="piano-key white-key" data-note="C"></div>
+			<div class="piano-key white-key" data-note="D"></div>
+			<div class="piano-key white-key" data-note="E"></div>
+			<div class="piano-key white-key" data-note="F"></div>
+			<div class="piano-key white-key" data-note="G"></div>
+			<div class="piano-key white-key" data-note="A"></div>
+			<div class="piano-key white-key" data-note="B"></div>
+
+			<!-- Black keys -->
+			<div class="piano-key black-key" data-note="C#"></div>
+			<div class="piano-key black-key" data-note="D#"></div>
+			<div class="piano-key black-key" data-note="F#"></div>
+			<div class="piano-key black-key" data-note="G#"></div>
+			<div class="piano-key black-key" data-note="A#"></div>
 		</div>
 	</div>
-
 </div>

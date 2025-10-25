@@ -25,7 +25,7 @@ namespace Blazor.Midi.GoKeys.Services
                 _allTones = ParseCsv(csvContent);
 
                 _tonesByCategory = _allTones
-                    .GroupBy(p => p.Category)
+                    .GroupBy(p => p.Category ?? string.Empty)
                     .ToDictionary(g => g.Key, g => g.ToList());
 
                 IsInitialized = true;
@@ -86,8 +86,8 @@ namespace Blazor.Midi.GoKeys.Services
 
             return _allTones
                 .Where(p =>
-                    p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
-                    p.Num.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    (!string.IsNullOrEmpty(p.Name) && p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(p.Num) && p.Num.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }
 
