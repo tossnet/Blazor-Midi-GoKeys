@@ -158,6 +158,10 @@ function handleMIDIMessage(message) {
     // Check if the message is a "Note On" event (key pressed)
     if (status >= 144 && status < 160) {
         console.log(`Key pressed: ${key}, Velocity: ${velocity}`);
+
+        if (dotNetHelper) {
+            dotNetHelper.invokeMethodAsync('OnMidiKeyPress', key, velocity || 'Unknown Device');
+        }
     }
 
     // Check if the message is a "Note Off" event (key released)

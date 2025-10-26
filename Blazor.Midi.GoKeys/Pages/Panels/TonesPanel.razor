@@ -6,26 +6,20 @@
 		<GKTextBox @bind-Value:get="_searchText"
 				   @bind-Value:set="FilterTones"
 				   Placeholder="Search a tone..." />
-	}
-</div>
 
-<div class="box box-8">
-	@if (!ToneService.IsInitialized)
-	{
-		<p>Loading...</p>
-	}
-	else
-	{
-		<select @onchange="OnCategoryChanged">
+		<br />
+		<br />
+		<select class="category-select" @onchange="OnCategoryChanged">
 			<option value="">Select a category</option>
 			@foreach (var category in Categories)
 			{
 				<option value="@category">@category</option>
 			}
 		</select>
-
-		<br />
 	}
+</div>
+
+<div class="box box-8">
 	@if (selectedTones.Any())
 	{
 		<ul class="list-tones">

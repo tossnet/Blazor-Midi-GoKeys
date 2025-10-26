@@ -8,9 +8,11 @@ public partial class TonesPanel
 {
     [Inject] private IToneService ToneService { get; set; } = default!;
 
+    /// <summary />
     [Parameter]
     public List<string>? Categories { get; set; }
 
+    /// <summary />
     [Parameter]
     public EventCallback<Tone> OnToneClickCallback { get; set; }
 
@@ -19,6 +21,7 @@ public partial class TonesPanel
     private string? _searchText;
     private Tone? _selectedtone;
 
+    /// <summary />
     private void FilterTones(string? value)
     {
         _searchText = value;
@@ -29,6 +32,7 @@ public partial class TonesPanel
         }
     }
 
+    /// <summary />
     private void OnCategoryChanged(ChangeEventArgs e)
     {
         var category = e.Value?.ToString();
@@ -38,6 +42,7 @@ public partial class TonesPanel
         }
     }
 
+    /// <summary />
     private async Task OnToneClick(Tone tone)
     {
         Console.WriteLine("panel OnToneClick");

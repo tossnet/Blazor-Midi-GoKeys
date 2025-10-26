@@ -11,17 +11,18 @@
 		<div class="align-center">
 			<GKLCD Disabled="@(!_isConnected)"
 				   TextStates="@_connectionStatus"
-				   MainContent="@_mainContent" />
+				   MainContent="@_mainContent"	  
+				   ActiveMenuIndex="@_activePanelIndex" />
 		</div>
 		<div class="functions">
 			<GKButton Caption="f1"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="@(() => SelectPanel(Components[nameof(TonesPanel)]))" />
+					  OnClick="@(() => SelectPanel(GetComponents()[nameof(TonesPanel)]))" />
 			<GKButton Caption="f2"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
+					  OnClick="@(() => SelectPanel(GetComponents()[nameof(TrackerPanel)]))" />
 			<GKButton Caption="f3"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
@@ -29,7 +30,7 @@
 			<GKButton Caption="f4"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="@(() => SelectPanel(Components[nameof(SettingsPanel)]))" />
+					  OnClick="@(() => SelectPanel(GetComponents()[nameof(SettingsPanel)]))" />
 		</div>
 	</div>
 

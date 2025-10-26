@@ -112,16 +112,23 @@
 .lcd-menu-item {
     font-size: 12px;
     opacity: 0.8;
-    transform: scaleY(1.5); 
-    display: inline-block; 
+    transform: scaleY(1.5);
+    display: inline-block;
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
-/* Pixelated effect (optionnel) */
-.lcd-pixelated {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-}
+    .lcd-menu-item.active {
+        background-color: #a0c4ff;
+        color: #1a3a7a;
+    }
+
+    /* Pixelated effect (optionnel) */
+    .lcd-pixelated {
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+    }
 
 
 .lcd-blink {

@@ -1,4 +1,5 @@
 .list-tones {
+    background-color: #0d1e3e;
     box-sizing: border-box;
     max-height: 100%;
     overflow-y: auto;
@@ -28,4 +29,27 @@
 
     .list-tones li:hover {
         background-color: #ffffff42;
+    }
+
+.category-select {
+    background-color: #0d1e3e;
+    color: #728fc1;
+    border: 2px solid #223344;
+    border-radius: 6px;
+    font-family: inherit;
+    padding: 6px 10px;
+    width: 220px;
+    box-shadow: inset 0 0 6px #0a1a2a;
+    cursor: pointer;
+}
+
+    .category-select option {
+        background-color: #0d1623;
+        color: #8fc7ff;
+    }
+
+    .search-tone:focus,
+    .category-select:focus {
+        border-color: #2e5fa8;
+        box-shadow: 0 0 8px #2e5fa8;
     }

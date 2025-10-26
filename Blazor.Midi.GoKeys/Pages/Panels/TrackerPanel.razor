@@ -1,0 +1,13 @@
+﻿@namespace Blazor.Midi.GoKeys.Pages
+
+<div class="box box-8">
+	@if (Pattern.Any())
+	{
+		<ul id="channel-list">
+			@foreach (var note in Pattern)
+			{
+				<li>@note</li>
+			}
+		</ul>
+	}
+</div>
