@@ -1,0 +1,38 @@
+﻿@namespace Blazor.Midi.GoKeys.Pages
+
+<div class="box box-7">
+	@if (ToneService.IsInitialized)
+	{
+		<GKTextBox @bind-Value:get="_searchText"
+				   @bind-Value:set="FilterTones"
+				   Placeholder="Search a tone..." />
+	}
+</div>
+
+<div class="box box-8">
+	@if (!ToneService.IsInitialized)
+	{
+		<p>Loading...</p>
+	}
+	else
+	{
+		<select @onchange="OnCategoryChanged">
+			<option value="">Select a category</option>
+			@foreach (var category in Categories)
+			{
+				<option value="@category">@category</option>
+			}
+		</select>
+
+		<br />
+	}
+	@if (selectedTones.Any())
+	{
+		<ul class="list-tones">
+			@foreach (var tone in selectedTones)
+			{
+				<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
+			}
+		</ul>
+	}
+</div>

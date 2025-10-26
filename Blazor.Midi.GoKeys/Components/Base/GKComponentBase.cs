@@ -6,7 +6,7 @@ public abstract  class GKComponentBase : ComponentBase
 {
     /// </summary>
     [CascadingParameter(Name = "Disabled")]
-    public virtual bool? ParentDisabled { get; set; }
+    public virtual bool ParentDisabled { get; set; } 
 
     /// <summary>
     /// Disables the form control, ensuring it doesn't participate in form submission.

@@ -1,6 +1,7 @@
 using Blazor.Midi.GoKeys.Models;
 using Blazor.Midi.GoKeys.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
 namespace Blazor.Midi.GoKeys.Pages;
@@ -17,8 +18,26 @@ public partial class Home : IAsyncDisposable
     private IJSObjectReference JsModule { get; set; } = default!;
     private List<string> categories = new();
     private List<Tone> selectedTones = new();
-    private Tone? _selectedtone; 
-    private string? _searchText;
+    private Tone? _selectedtone;
+    private ComponentMetadata? selectedComponent;
+
+    private Dictionary<string, ComponentMetadata> Components => new()
+        {
+            [nameof(TonesPanel)] = new ComponentMetadata()
+            {
+                Type = typeof(TonesPanel),
+                Name = "Tones Panel",
+                Parameters = {
+                    [nameof(TonesPanel.Categories)] = categories,
+                    [nameof(TonesPanel.OnToneClickCallback)] = EventCallback.Factory.Create<Tone>(this, OnToneClick)
+                }
+            },
+            [nameof(SettingsPanel)] = new ComponentMetadata()
+            {
+                Type = typeof(SettingsPanel),
+                Name = "Settings Panel"
+            }
+            };
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,13 +75,9 @@ public partial class Home : IAsyncDisposable
         InvokeAsync(StateHasChanged);
     }
 
-    private void OnCategoryChanged(ChangeEventArgs e)
+    private void SelectPanel(ComponentMetadata component)
     {
-        var category = e.Value?.ToString();
-        if (!string.IsNullOrEmpty(category))
-        {
-            selectedTones = ToneService.GetTonesByCategory(category);
-        }
+        selectedComponent = component;
     }
 
     private async Task OnToneClick(Tone tone)
@@ -86,18 +101,6 @@ public partial class Home : IAsyncDisposable
     {
         await js.InvokeVoidAsync("alert", "Not yet implement");
     }
-
-    
-    private void FilterTones(string? value)
-    {
-        _searchText = value;
-
-        if (!string.IsNullOrWhiteSpace(value))
-        {
-            selectedTones = ToneService.SearchTones(value);
-        }
-    }
-
 
     private void UpdateMainContent()
     {

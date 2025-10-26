@@ -7,7 +7,7 @@
 
     <button @onclick="@OnClickHandlerAsync"
             class="gk-button @GetComponentClass()"
-            disabled="@(ParentDisabled | Disabled)"
+            disabled="@(ParentDisabled || Disabled)"
             @attributes="Attributes">
         @ChildContent
     </button>

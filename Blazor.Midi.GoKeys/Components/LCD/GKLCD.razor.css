@@ -152,7 +152,6 @@
     }
 
     .lcd-screen.lcd-off .lcd-piano-keys,
-    .lcd-screen.lcd-off .lcd-content,
-    .lcd-screen.lcd-off .lcd-menu {
+    .lcd-screen.lcd-off .lcd-content {
         visibility: hidden;
     }

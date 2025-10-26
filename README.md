@@ -33,7 +33,6 @@ This project is designed for:
 
 This project was inspired by the excellent work of  
 👉 [pianosnake/roland-go-keys](https://github.com/pianosnake/roland-go-keys).  
-It aims to bring similar functionality into the **.NET Blazor ecosystem**.
 
 ---
 

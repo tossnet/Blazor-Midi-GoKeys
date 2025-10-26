@@ -1,8 +1,5 @@
 ﻿@page "/"
 
-<PageTitle>Midi-GoKeys</PageTitle>
-
-
 <div class="row-2">
 	<div class="box box-4">
 		<GKButton Caption="⏻"
@@ -11,14 +8,16 @@
 	</div>
 
 	<div class="box box-5">
-		<GKLCD Disabled="@(!_isConnected)"
-			   TextStates="@_connectionStatus"
-			   MainContent="@_mainContent" />
+		<div class="align-center">
+			<GKLCD Disabled="@(!_isConnected)"
+				   TextStates="@_connectionStatus"
+				   MainContent="@_mainContent" />
+		</div>
 		<div class="functions">
 			<GKButton Caption="f1"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
+					  OnClick="@(() => SelectPanel(Components[nameof(TonesPanel)]))" />
 			<GKButton Caption="f2"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
@@ -30,14 +29,14 @@
 			<GKButton Caption="f4"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
+					  OnClick="@(() => SelectPanel(Components[nameof(SettingsPanel)]))" />
 		</div>
 	</div>
 
 	<div class="box box-6">
 		<div class="items">
-			<GKButton class="item" 
-				      Caption="piano"
+			<GKButton class="item"
+					  Caption="piano"
 					  OnClick="@(() => PreselectClick("Ac.Piano"))" />
 			<GKButton class="item"
 					  Caption="e piano"
@@ -61,42 +60,12 @@
 
 
 <div class="row-3">
-	<div class="box box-7">
-		@if (ToneService.IsInitialized)
-		{
-			<GKTextBox @bind-Value:get="_searchText"
-					   @bind-Value:set="FilterTones"
-					   Placeholder="Search a tone..." />
-		}
-	</div>
+	@if (selectedComponent is not null)
+	{
+		<DynamicComponent Type="selectedComponent.Type"
+						  Parameters="selectedComponent.Parameters" />
 
-	<div class="box box-8">
-		@if (!ToneService.IsInitialized)
-		{
-			<p>Loading...</p>
-		}
-		else
-		{
-			<select @onchange="OnCategoryChanged">
-				<option value="">Select a category</option>
-				@foreach (var category in categories)
-				{
-					<option value="@category">@category</option>
-				}
-			</select>
-
-			<br />
-		}
-		@if (selectedTones.Any())
-		{
-			<ul class="list-tones">
-				@foreach (var tone in selectedTones)
-				{
-					<li @onclick="() => OnToneClick(tone)">@tone.Num - @tone.Name</li>
-				}
-			</ul>
-		}
-	</div>
+	}
 </div>
 
 
@@ -122,22 +91,5 @@
 			<div class="piano-key white offset" data-note="E2"></div>
 		</div>
 
-		<div class="piano-loading">
-			<!-- White keys -->
-			<div class="piano-key white-key" data-note="C"></div>
-			<div class="piano-key white-key" data-note="D"></div>
-			<div class="piano-key white-key" data-note="E"></div>
-			<div class="piano-key white-key" data-note="F"></div>
-			<div class="piano-key white-key" data-note="G"></div>
-			<div class="piano-key white-key" data-note="A"></div>
-			<div class="piano-key white-key" data-note="B"></div>
-
-			<!-- Black keys -->
-			<div class="piano-key black-key" data-note="C#"></div>
-			<div class="piano-key black-key" data-note="D#"></div>
-			<div class="piano-key black-key" data-note="F#"></div>
-			<div class="piano-key black-key" data-note="G#"></div>
-			<div class="piano-key black-key" data-note="A#"></div>
-		</div>
 	</div>
 </div>
