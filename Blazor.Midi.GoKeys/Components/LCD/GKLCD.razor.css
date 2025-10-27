@@ -1,15 +1,15 @@
 .lcd-screen {
+    position: relative;
     background: linear-gradient(180deg, #1a3a7a 0%, #2b4f9f 50%, #1a3a7a 100%);
     border: 7px solid #181818;
     /*padding: 2px;*/
     box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-    position: relative;
     overflow: hidden;
     width: 340px;
     height: 143px;
     font-family: 'Courier New', monospace;
-    font-size: 22px;
     font-weight: bold;
+    font-size: 22px;
     color: #a0c4ff;
     text-shadow: 0 0 7px rgba(160, 196, 255, 0.8), 0 0 20px rgba(160, 196, 255, 0.4), 0 0 30px rgba(160, 196, 255, 0.2);
     letter-spacing: 1.4px;

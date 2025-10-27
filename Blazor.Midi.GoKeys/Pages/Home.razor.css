@@ -1,11 +1,7 @@
-
-
 .functions {
     display:flex;
     margin-top:20px;
 }
-
-
 
 :root {
     --keyboard: hsl(300, 100%, 16%);
@@ -20,6 +16,19 @@
     --white-50: hsla(0, 0%, 100%, 0.5);
     --white-80: hsla(0, 0%, 100%, 0.8);
 }
+
+::deep .power-button-icon::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-bottom: -10px;
+}
+
 
 .white,
 .black {
