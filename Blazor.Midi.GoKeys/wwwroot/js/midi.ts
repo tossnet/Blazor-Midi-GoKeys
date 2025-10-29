@@ -31,10 +31,11 @@ export async function connectMIDI() {
             }
         };
 
+        // Keeping track of MIDI inputs
         midiAccess.inputs.forEach((input) => {
             console.log('Listening to MIDI input:', input.name);
             input.onmidimessage = (message) => {
-                handleMIDIMessage(message);
+                manageMIDIMessage(message);
             };
         });
 
@@ -152,7 +153,7 @@ export function sendProgramChange(channel, msb, lsb, pc) {
 }
 
 // Function to handle incoming MIDI messages
-function handleMIDIMessage(message) {
+function manageMIDIMessage(message) {
     const [status, key, velocity] = message.data;
 
     // Check if the message is a "Note On" event (key pressed)

@@ -1,29 +1,27 @@
-using Blazor.Midi.GoKeys.Models;
 using Blazor.Midi.GoKeys.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using Microsoft.JSInterop;
-using System.Xml.Linq;
 
 namespace Blazor.Midi.GoKeys.Pages;
 
-public partial class Home : IAsyncDisposable
+public partial class Home : IDisposable 
 {
     [Inject] private IJSInProcessRuntime js { get; set; } = default!;
     [Inject] private IToneService ToneService { get; set; } = default!;
+    [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
+
+    private IJSInProcessObjectReference? JsModule { get; set; } = default!;
 
     private bool _isConnected = false;
     private string? _connectionStatus = "Disconnect";
-    private string? _mainContent = @"V-001 Electro Pop<br /><br /><span class='lcd-tall'>Concert Piano</span><br /><span class='lcd-small'>PR.108 Electro Pop2</span>";
+    private string? _mainContent = @"V-001 Electro Pop<br /><br /><span class='lcd-tall'>Concert Piano</span><br /><span class='lcd-small'>PR--- No style</span>";
     private DotNetObjectReference<Home>? _dotNetRef;
-    private IJSObjectReference JsModule { get; set; } = default!;
-    private List<string> categories = new();
-    private List<Tone> selectedTones = new();
+    private List<string> _categories = new();
+    private List<Tone> _selectedTones = new();
     private Tone? _selectedtone;
-    private ComponentMetadata? selectedComponent;
+    private ComponentMetadata? _selectedComponent;
     private int _activePanelIndex;
-    private int _midiKey;
+    private Note _midiNote;
 
     /// <summary />
     private Dictionary<string, ComponentMetadata> GetComponents() => new()
@@ -31,39 +29,43 @@ public partial class Home : IAsyncDisposable
         [nameof(TonesPanel)] = new ComponentMetadata()
         {
             Type = typeof(TonesPanel),
-            Name = "Tones Panel",
             Parameters = {
-                        [nameof(TonesPanel.Categories)] = categories,
+                        [nameof(TonesPanel.Categories)] = _categories,
                         [nameof(TonesPanel.OnToneClickCallback)] = EventCallback.Factory.Create<Tone>(this, OnToneClick)
                      }
         },
         [nameof(TrackerPanel)] = new ComponentMetadata()
         {
             Type = typeof(TrackerPanel),
-            Name = "Tracker Panel",
             Parameters = {
-                        [nameof(TrackerPanel.MidiKey)] = _midiKey
+                        [nameof(TrackerPanel.MidiNote)] = _midiNote
                      }
         },
         [nameof(SettingsPanel)] = new ComponentMetadata()
         {
             Type = typeof(SettingsPanel),
-            Name = "Settings Panel"
         }
     };
 
     protected override async Task OnInitializedAsync()
     {
-        JsModule ??= await js.InvokeAsync<IJSObjectReference>("import", "./js/midi.js");
+        // Dont forget that the 'Web MIDI API' is asynchronous
+        JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./js/midi.js");
+
+        if (JsModule is null)
+        {
+            Console.WriteLine("JS module could not be loaded.");
+            return;
+        }
 
         // Register the callback
         _dotNetRef = DotNetObjectReference.Create(this);
-        await JsModule.InvokeVoidAsync("setOnStateChangeCallback", _dotNetRef);
+        JsModule.InvokeVoid("setOnStateChangeCallback", _dotNetRef);
 
         await ToneService.InitializeAsync();
-        categories = ToneService.GetCategories();
+        _categories = ToneService.GetCategories();
 
-        await js.InvokeVoidAsync("gkClick_init");
+        js.InvokeVoid("gkClick_init");
     }
 
     /// <summary />
@@ -94,13 +96,17 @@ public partial class Home : IAsyncDisposable
     [JSInvokable]
     public void OnMidiKeyPress(int key, int velocity)
     {
-        _midiKey = key;
+        _midiNote= new Note
+        {
+            Key = key,
+            Velocity = velocity
+        };
 
         // idée de Copilot pour rafraichir le TrackerPanel :
         // Si TrackerPanel est sélectionné, créer une nouvelle instance
-        if (selectedComponent?.Type == typeof(TrackerPanel))
+        if (_selectedComponent?.Type == typeof(TrackerPanel))
         {
-            selectedComponent = GetComponents()[nameof(TrackerPanel)];
+            _selectedComponent = GetComponents()[nameof(TrackerPanel)];
         }
 
         InvokeAsync(StateHasChanged);
@@ -109,7 +115,7 @@ public partial class Home : IAsyncDisposable
     /// <summary />
     private void SelectPanel(ComponentMetadata component)
     {
-        selectedComponent = component;
+        _selectedComponent = component;
         _activePanelIndex = GetActiveMenuIndex();
     }
 
@@ -118,10 +124,10 @@ public partial class Home : IAsyncDisposable
     /// </summary>
     private int GetActiveMenuIndex()
     {
-        if (selectedComponent == null)
+        if (_selectedComponent == null)
             return -1;
 
-        return selectedComponent.Type.Name switch
+        return _selectedComponent.Type.Name switch
         {
             nameof(TonesPanel) => 0, 
             nameof(TrackerPanel) => 1,
@@ -135,25 +141,25 @@ public partial class Home : IAsyncDisposable
     private async Task OnToneClick(Tone tone)
     {
         _selectedtone = tone;
-        await JsModule.InvokeVoidAsync("sendProgramChange", 4, tone.MSB, tone.LSB, tone.PC);
+        JsModule?.InvokeVoid("sendProgramChange", 4, tone.MSB, tone.LSB, tone.PC);
         UpdateMainContent();
     }
 
     /// <summary />
     private async Task PreselectClick(string category)
     {
-        selectedTones = ToneService.GetTonesByCategory(category);
+        _selectedTones = ToneService.GetTonesByCategory(category);
 
-        if (selectedTones.Any())
+        if (_selectedTones.Any())
         {
-            await OnToneClick(selectedTones.First());
+            await OnToneClick(_selectedTones.First());
         }
     }
 
     /// <summary />
     private async Task NoYetCode()
     {
-        await js.InvokeVoidAsync("alert", "Not yet implement");
+        js.InvokeVoid("alert", "Not yet implement");
     }
 
     /// <summary />
@@ -165,15 +171,12 @@ public partial class Home : IAsyncDisposable
                         <br /><br />
                         <span class='lcd-tall'>{_selectedtone.Name}</span>
                         <br />
-                        <span class='lcd-small'>PR.108 Electro Pop2</span>";
+                        <span class='lcd-small'>PR--- Style</span>";
     }
 
     /// <summary />
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
-        if (JsModule is not null)
-        {
-            await JsModule.DisposeAsync();
-        }
+        JsModule?.Dispose();
     }
 }

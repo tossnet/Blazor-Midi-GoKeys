@@ -1,16 +1,17 @@
 ﻿@namespace Blazor.Midi.GoKeys.Pages
 
 <div class="box box-1">
+	<GKButton Caption="play" />
 </div>
 
 <div class="box box-8">
-	@if (Pattern.Any())
-	{
-		<ul class="channel-list">
+	<ul class="channel-list">
+		@if (Pattern.Any())
+		{
 			@foreach (var note in Pattern)
 			{
 				<li>@note</li>
 			}
-		</ul>
-	}
+		}
+	</ul>
 </div>

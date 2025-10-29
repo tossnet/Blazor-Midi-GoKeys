@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.FileSystemGlobbing.Internal;
-using Microsoft.JSInterop;
 
 namespace Blazor.Midi.GoKeys.Pages;
 
@@ -8,16 +6,25 @@ public partial class TrackerPanel
 {
     /// <summary />
     [Parameter]
-    public int MidiKey { get; set; }
+    public Note MidiNote { get; set; }
+
+
+    /// <summary />
+    [Parameter]
+    public List<Note>? RawMidiKeys { get; set; } = new();
+
+    /// <summary />
+    [Parameter]
+    public EventCallback<List<Note>> RawMidiKeysChanged { get; set; }
 
     public List<string>? Pattern { get; set; } = new();
 
     protected override void OnInitialized()
     {
-        Pattern = new List<string>
-        { 
-            "000 -----"
-        };
+        //Pattern = new List<string>
+        //{ 
+        //    "000 -----"
+        //};
     }
 
     /// <summary />
@@ -25,29 +32,34 @@ public partial class TrackerPanel
     {
         await base.SetParametersAsync(parameters);
 
-        if (parameters.TryGetValue<int>(nameof(MidiKey), out var newMidiKey))
+        if (parameters.TryGetValue<Note>(nameof(MidiNote), out Note? newMidiNote) && newMidiNote != null)
         {
-            var note = GetNoteName(newMidiKey);
-            Console.WriteLine($" Key: {newMidiKey} note: {note}");
-            Pattern.Add(note);
+            var note = GetNoteName(newMidiNote.Key);
+            Console.WriteLine($" Key: {newMidiNote.Key} note: {note}");
+
+            RawMidiKeys?.Add(newMidiNote);
+            Pattern?.Add(note);
         }
     }
 
     /// <summary />
     public string GetNoteName(int key)
     {
-        // Les noms des notes dans l'ordre chromatique
         string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
-        // Calculer la position relative à partir de 36
-        int relativePosition = key - 36;
-
         // Calculer l'octave (chaque octave contient 12 notes)
-        int octave = (relativePosition / 12) + 1;
+        int octave = (key / 12) + 1;
 
         // Calculer quelle note dans l'octave (0-11)
-        int noteIndex = relativePosition % 12;
+        int noteIndex = key % 12;
 
-        return $"{noteNames[noteIndex]}{octave} -----";
+        string effect = "-----";
+
+        if (noteNames[noteIndex].Length == 1)
+        {
+            return $"{noteNames[noteIndex]}-{octave} {effect}";
+        }
+
+        return $"{noteNames[noteIndex]}{octave} {effect}";
     }
 }

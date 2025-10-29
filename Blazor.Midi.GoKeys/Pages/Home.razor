@@ -62,10 +62,10 @@
 
 
 <div class="row-3">
-	@if (selectedComponent is not null)
+	@if (_selectedComponent is not null)
 	{
-		<DynamicComponent Type="selectedComponent.Type"
-						  Parameters="selectedComponent.Parameters" />
+		<DynamicComponent Type="_selectedComponent.Type"
+						  Parameters="_selectedComponent.Parameters" />
 
 	}
 </div>

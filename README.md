@@ -9,9 +9,9 @@ This app demonstrates how Blazor can be used to **handle MIDI devices directly i
 
 ## ✨ Main Features
 
-- 🎛️ Automatic detection of connected MIDI devices  
-- 🎚️ Full MIDI channel control (velocity, pitch, control change, etc.)  
+- 🎚️ MIDI channel control
 - 🌐 100% client-side – no backend required  
+- 🎛️ Record sequencer patterns
 
 ---
 
@@ -24,7 +24,9 @@ This app demonstrates how Blazor can be used to **handle MIDI devices directly i
 
 This project is designed for:
 - **.NET / Blazor developers** interested in experimenting with the **Web MIDI API**,  
-- **Musicians and makers** who want to build their own browser-based MIDI interfaces,  
+  - use of the synchronous JS interface
+  - use of dynamic components
+- **Musicians and makers** who want to build their own browser-based MIDI interfaces, 
 - **Educational and non-commercial** purposes.  
 
 ---

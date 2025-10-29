@@ -1,4 +1,3 @@
-using Blazor.Midi.GoKeys.Models;
 using Blazor.Midi.GoKeys.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -19,7 +18,6 @@ public partial class TonesPanel
     private List<Tone> selectedTones = new();
 
     private string? _searchText;
-    private Tone? _selectedtone;
 
     /// <summary />
     private void FilterTones(string? value)
