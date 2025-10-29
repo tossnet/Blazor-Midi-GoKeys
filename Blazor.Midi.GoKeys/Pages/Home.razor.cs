@@ -18,14 +18,16 @@ public partial class Home : IDisposable
     private DotNetObjectReference<Home>? _dotNetRef;
     private List<string> _categories = new();
     private List<Tone> _selectedTones = new();
+    public List<Note> _rawMidiKeys = new();
     private Tone? _selectedtone;
     private ComponentMetadata? _selectedComponent;
     private int _activePanelIndex;
     private Note _midiNote;
 
     /// <summary />
-    private Dictionary<string, ComponentMetadata> GetComponents() => new()
+    private Dictionary<string, ComponentMetadata> Components => new()
     {
+
         [nameof(TonesPanel)] = new ComponentMetadata()
         {
             Type = typeof(TonesPanel),
@@ -38,7 +40,9 @@ public partial class Home : IDisposable
         {
             Type = typeof(TrackerPanel),
             Parameters = {
-                        [nameof(TrackerPanel.MidiNote)] = _midiNote
+                        [nameof(TrackerPanel.MidiNote)] = _midiNote,
+                        [nameof(TrackerPanel.RawMidiKeys)] = _rawMidiKeys,
+                        [nameof(TrackerPanel.PlayCallback)] = EventCallback.Factory.Create<List<Note>>(this, OnClickPlay)
                      }
         },
         [nameof(SettingsPanel)] = new ComponentMetadata()
@@ -46,7 +50,7 @@ public partial class Home : IDisposable
             Type = typeof(SettingsPanel),
         }
     };
-
+    
     protected override async Task OnInitializedAsync()
     {
         // Dont forget that the 'Web MIDI API' is asynchronous
@@ -102,12 +106,7 @@ public partial class Home : IDisposable
             Velocity = velocity
         };
 
-        // idée de Copilot pour rafraichir le TrackerPanel :
-        // Si TrackerPanel est sélectionné, créer une nouvelle instance
-        if (_selectedComponent?.Type == typeof(TrackerPanel))
-        {
-            _selectedComponent = GetComponents()[nameof(TrackerPanel)];
-        }
+        _selectedComponent.Parameters[nameof(TrackerPanel.MidiNote)] = _midiNote;
 
         InvokeAsync(StateHasChanged);
     }
@@ -143,6 +142,14 @@ public partial class Home : IDisposable
         _selectedtone = tone;
         JsModule?.InvokeVoid("sendProgramChange", 4, tone.MSB, tone.LSB, tone.PC);
         UpdateMainContent();
+    }
+
+    private async Task OnClickPlay(List<Note> rawMidiKeys)
+    {
+        int tempo = 20;
+        int noteDuration = 500;
+
+        JsModule?.InvokeVoid("playSequence", rawMidiKeys, noteDuration, tempo);
     }
 
     /// <summary />

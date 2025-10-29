@@ -1,3 +1,4 @@
+using Blazor.Midi.GoKeys.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazor.Midi.GoKeys.Pages;
@@ -8,29 +9,23 @@ public partial class TrackerPanel
     [Parameter]
     public Note MidiNote { get; set; }
 
+    /// <summary />
+    [Parameter]
+    public List<Note> RawMidiKeys { get; set; } = new();
+
 
     /// <summary />
     [Parameter]
-    public List<Note>? RawMidiKeys { get; set; } = new();
-
-    /// <summary />
-    [Parameter]
-    public EventCallback<List<Note>> RawMidiKeysChanged { get; set; }
+    public EventCallback<List<Note>> PlayCallback { get; set; }
 
     public List<string>? Pattern { get; set; } = new();
-
-    protected override void OnInitialized()
-    {
-        //Pattern = new List<string>
-        //{ 
-        //    "000 -----"
-        //};
-    }
 
     /// <summary />
     public override async Task SetParametersAsync(ParameterView parameters)
     {
         await base.SetParametersAsync(parameters);
+
+        RawMidiKeys ??= new List<Note>();
 
         if (parameters.TryGetValue<Note>(nameof(MidiNote), out Note? newMidiNote) && newMidiNote != null)
         {
@@ -61,5 +56,17 @@ public partial class TrackerPanel
         }
 
         return $"{noteNames[noteIndex]}{octave} {effect}";
+    }
+
+
+    private void OnClickNew()
+    {
+        RawMidiKeys?.Clear();
+        Pattern?.Clear();
+    }
+
+    private async Task OnClickPlay()
+    {
+        await PlayCallback.InvokeAsync(RawMidiKeys);
     }
 }

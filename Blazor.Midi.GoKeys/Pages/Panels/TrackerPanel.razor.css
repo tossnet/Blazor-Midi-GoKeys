@@ -38,7 +38,7 @@
         color: #a0c4ff;
     }
 
-/* Scan line effect (scanlines) */
+    /* Scan line effect (scanlines) */
     .channel-list::before {
         content: '';
         position: absolute;
@@ -46,7 +46,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.15) 0px, transparent 1px, transparent 2px, rgba(0, 0, 0, 0.15) 3px );
+        /*background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.15) 0px, transparent 1px, transparent 2px, rgba(0, 0, 0, 0.15) 3px );*/
+        background: repeating-linear-gradient( 0deg, rgba(0, 0, 0, 0.3) 0px, transparent 1px, transparent 3px, rgba(0, 0, 0, 0.3) 4px );
         pointer-events: none;
         z-index: 2;
     }

@@ -1,4 +1,4 @@
-let midiAccess = null;
+﻿let midiAccess = null;
 let output = null;
 const instrumentName = ['go:keys', 'roland', 'bluetooth'];
 let dotNetHelper = null;
@@ -26,33 +26,33 @@ export async function connectMIDI() {
                 }
                 if (output && eventPort.id === output.id && eventPort.state === 'disconnected') {
                     output = null;
-                    console.log('Active MIDI output was disconnected');
+                    console.log('🎹 Active MIDI output was disconnected');
                 }
             }
         };
 
         // Keeping track of MIDI inputs
         midiAccess.inputs.forEach((input) => {
-            console.log('Listening to MIDI input:', input.name);
+            console.log('🎹 Listening to MIDI input:', input.name);
             input.onmidimessage = (message) => {
                 manageMIDIMessage(message);
             };
         });
 
-        // Fonction commune pour g�rer les interactions avec les touches
+        // Fonction commune pour gérer les interactions avec les touches
         const handlePianoKeyInteraction = (event: Event) => {
             const target = event.target as HTMLElement;
             if (target && target.classList.contains('piano-key')) {
                 const note = target.dataset?.note;
                 if (note && output) {
-                    console.log(`Piano key ${event.type}:`, note);
+                    console.log(`🎹 Piano key ${event.type}: ${note}`);
                     const midiNote = noteNameToMidi(note, 4);
                     playNote(midiNote, 100, 1000);
                 }
             }
         };
 
-        // �couter plusieurs types d'�v�nements
+        // Écouter plusieurs types d'événements
         const eventTypes = ['touchstart', 'mousedown'];
         eventTypes.forEach(eventType => {
             document.addEventListener(eventType, handlePianoKeyInteraction);
@@ -60,7 +60,7 @@ export async function connectMIDI() {
 
     }
     midiAccess.outputs.forEach((out) => {
-        console.log('output', out && out.name);
+        console.info('🎹 output', out && out.name);
         const outName = out?.name;
         if (outName && instrumentName.some(name => outName.toLowerCase().includes(name))) {
             output = out;
@@ -78,7 +78,7 @@ export async function disconnectMIDI() {
         if (output) {
             await output.close();
             output = null;
-            console.log('MIDI output disconnected');
+            console.log('🎹 MIDI output disconnected');
         }
         if (midiAccess) {
             midiAccess.inputs.forEach((input) => {
@@ -90,12 +90,12 @@ export async function disconnectMIDI() {
             midiAccess.onstatechange = null;
             dotNetHelper = null;
             midiAccess = null;
-            console.log('MIDI access disconnected');
+            console.log('🎹 MIDI access disconnected');
         }
         return false;
     }
     catch (error) {
-        console.error('Error disconnecting MIDI:', error);
+        console.error('🎹 Error disconnecting MIDI:', error);
         return true;
     }
 }
@@ -104,7 +104,7 @@ export function sendProgramChange(channel, msb, lsb, pc) {
     if (!output)
         return;
 
-    console.log(`PC to channel ${channel}: MSB=${msb}, LSB=${lsb}, PC=${pc}`);
+    console.log(`🎹 PC to channel ${channel}: MSB=${msb}, LSB=${lsb}, PC=${pc}`);
 
     const ch = Math.max(1, Math.min(channel, 16)) - 1;
     const msbVal = Math.max(0, Math.min(msb, 127));
@@ -146,9 +146,9 @@ export function sendProgramChange(channel, msb, lsb, pc) {
         }, delay);
     };
 
-    // Jouer les notes successivement avec des d�lais
+    // Jouer les notes successivement avec des délais
     notes.forEach((note, index) => {
-        playNote(note, index * (duration + 100)); // Ajouter un d�lai entre les notes
+        playNote(note, index * (duration + 100)); // Ajouter un délai entre les notes
     });
 }
 
@@ -158,7 +158,7 @@ function manageMIDIMessage(message) {
 
     // Check if the message is a "Note On" event (key pressed)
     if (status >= 144 && status < 160) {
-        console.log(`Key pressed: ${key}, Velocity: ${velocity}`);
+        console.log(`🎹 Key pressed: ${key}, Velocity: ${velocity}`);
 
         if (dotNetHelper) {
             dotNetHelper.invokeMethodAsync('OnMidiKeyPress', key, velocity || 'Unknown Device');
@@ -167,7 +167,7 @@ function manageMIDIMessage(message) {
 
     // Check if the message is a "Note Off" event (key released)
     if (status >= 128 && status < 144) {
-        console.log(`Key released: ${key}`);
+        console.log(`🎹 Key released: ${key}`);
     }
 }
 
@@ -181,7 +181,7 @@ function playNote(note = 60, velocity = 127, duration = 500) {
     }, duration);
 }
 
-// Fonction pour convertir le nom de note en num�ro MIDI
+// Fonction pour convertir le nom de note en numéro MIDI
 function noteNameToMidi(noteName: string, octave: number = 4): number {
     const noteMap: { [key: string]: number } = {
         'C': 0,
@@ -200,9 +200,31 @@ function noteNameToMidi(noteName: string, octave: number = 4): number {
 
     const noteValue = noteMap[noteName.toUpperCase()];
     if (noteValue === undefined) {
-        console.warn(`Note inconnue: ${noteName}`);
-        return 60; // C4 par d�faut
+        console.warn(`🎹 Note inconnue: ${noteName}`);
+        return 60; // C4 par défaut
     }
 
     return (octave + 1) * 12 + noteValue;
+}
+
+export function playSequence(notes: any[], noteDuration: number = 500, tempo: number = 50) {
+    console.log('🎹 playSequence called with:', {
+        notes: notes,
+        notesLength: notes?.length || 0,
+        noteDuration: noteDuration,
+        tempo: tempo,
+        outputAvailable: !!output
+    });
+
+    let currentTime = 0;
+
+    notes.forEach((note) => {
+        const velocity = note.velocity || 127; // Support both cases with default
+
+        setTimeout(() => {
+            playNote(note.key, velocity, noteDuration);
+        }, currentTime);
+
+        currentTime += noteDuration + tempo;
+    });
 }

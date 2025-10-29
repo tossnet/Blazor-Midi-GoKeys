@@ -5,6 +5,9 @@
     align-items: center;
     width: 55px;
 }
+    .gk-container:has(.gk-button:active) .gk-caption {
+        transform: scale(0.97);
+    }
 
 .gk-caption {
     font-family: 'Blinker', sans-serif;
@@ -72,6 +75,7 @@
     .gk-button:active,
     .gk-button.active {
         background: linear-gradient(270deg, #111, #222);
+        transform: scale(0.95);
     }
 
     .gk-button.round {
@@ -83,3 +87,5 @@
         width: 55px;
         height: 30px;
     }
+
+
