@@ -106,8 +106,11 @@ public partial class Home : IDisposable
             Velocity = velocity
         };
 
-        _selectedComponent.Parameters[nameof(TrackerPanel.MidiNote)] = _midiNote;
-
+        if (_selectedComponent?.Type.Name == nameof(TrackerPanel))
+        {
+            _selectedComponent.Parameters[nameof(TrackerPanel.MidiNote)] = _midiNote;
+        }
+        
         InvokeAsync(StateHasChanged);
     }
 

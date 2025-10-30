@@ -172,12 +172,19 @@ function manageMIDIMessage(message) {
 }
 
 function playNote(note = 60, velocity = 127, duration = 500) {
-    // Note on: [144, note, velocity]
-    // 144 = 0x90, note, velocity
-    output.send([0x93, note, velocity]); // 0x90 = Note On, channel 1
+
+    // Exemple : vibrato rate légèrement augmenté sur le canal 4
+    //output.send([0xB3, 0x7E, 0x50]); // 0x50 = 80 décimal > 0x40 → augmente le vibrato
+
+    // example résonance :
+    //output.send([0xB3, 0x47, 0x50]); // +16 au-dessus du neutre
+
+    // Note on: [0x9n, note, velocity]
+    output.send([0x93, note, velocity]); // 0x93 = Note On, channel 4
+
     // Note off after `duration` milliseconds
     setTimeout(() => {
-        output.send([0x83, note, 0]); // 0x80 = Note Off, channel 1
+        output.send([0x83, note, 0]); // 0x8n = Note Off
     }, duration);
 }
 
