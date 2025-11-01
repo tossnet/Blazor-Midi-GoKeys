@@ -1,4 +1,3 @@
-using Blazor.Midi.GoKeys.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazor.Midi.GoKeys.Pages;
@@ -12,7 +11,6 @@ public partial class TrackerPanel
     /// <summary />
     [Parameter]
     public List<Note> RawMidiKeys { get; set; } = new();
-
 
     /// <summary />
     [Parameter]
@@ -29,11 +27,14 @@ public partial class TrackerPanel
 
         if (parameters.TryGetValue<Note>(nameof(MidiNote), out Note? newMidiNote) && newMidiNote != null)
         {
-            var note = GetNoteName(newMidiNote.Key);
-            Console.WriteLine($" Key: {newMidiNote.Key} note: {note}");
 
             RawMidiKeys?.Add(newMidiNote);
-            Pattern?.Add(note);
+
+            var note = GetNoteName(newMidiNote.Key);
+            Console.WriteLine($" Key: {newMidiNote.Key} {newMidiNote.Velocity} note: {note}");
+
+            var velocity = GetVelocity(newMidiNote.Velocity);
+            Pattern?.Add($"{note} --{velocity}");
         }
     }
 
@@ -48,16 +49,20 @@ public partial class TrackerPanel
         // Calculer quelle note dans l'octave (0-11)
         int noteIndex = key % 12;
 
-        string effect = "-----";
-
         if (noteNames[noteIndex].Length == 1)
         {
-            return $"{noteNames[noteIndex]}-{octave} {effect}";
+            return $"{noteNames[noteIndex]}-{octave}";
         }
 
-        return $"{noteNames[noteIndex]}{octave} {effect}";
+        return $"{noteNames[noteIndex]}{octave}";
     }
 
+    /// <summary />
+    public string GetVelocity(int velocity)
+    {
+        // C is the code from ProTracker for volume note ^^
+        return $"C{velocity:X2}";
+    }
 
     private void OnClickNew()
     {
