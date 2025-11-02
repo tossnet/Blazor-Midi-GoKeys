@@ -4,7 +4,7 @@
 	<div class="box box-4">
 		<GKButton Caption=""
 				  Class="power-button-icon"
-				  OnClick="PowerClick"
+				  OnClick="PowerClick"	 
 				  Appearance="Appearance.Extended" />
 	</div>
 
@@ -50,10 +50,16 @@
 					  Caption="synth"
 					  OnClick="@(() => PreselectClick("Synth Lead"))" />
 			<GKButton class="item"
-					  Caption="Drums"
+					  Caption="BellPad"
+					  OnClick="@(() => PreselectClick("Synth BellPad"))" />
+			<GKButton class="item"
+					  Caption="Synth FX"
+					  OnClick="@(() => PreselectClick("Synth FX"))" />
+			<GKButton class="item"
+					  Caption="drums"
 					  OnClick="@(() => PreselectClick("Drums"))" />
 			<GKButton class="item"
-					  Caption="Dist.Guitar"
+					  Caption="dist.Guitar"
 					  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
 		</div>
 	</div>

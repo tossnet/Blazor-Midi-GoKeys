@@ -3,9 +3,9 @@
 @inherits GKComponentBase
 
 <input type="text"
+	   class="gk-textbox @Class"
+	   placeholder="@Placeholder"
+	   disabled="@(ParentDisabled | Disabled)"
 	   @bind:get="Value"
 	   @bind:set="OnValueSet"
-	   @bind:event="oninput"
-	   placeholder="@Placeholder"
-	   class="gk-textbox @Class"
-	   disabled="@(ParentDisabled | Disabled)" />
+	   @bind:event="oninput" />

@@ -2,13 +2,20 @@
 
 @inherits GKComponentBase
 
-<div class="gk-container @Class" style="@Style">
+<div class="gk-container @Class" 
+     style="@Style">
     <div class="gk-caption @GetClassPosition()">@Caption</div>
 
-    <button @onclick="@OnClickHandlerAsync"
-            class="gk-button @GetComponentClass()"
+    @if (ShowIndicator)
+    {
+        <div class="gk-indicator @GetIndicatorClass()"></div>
+	}
+
+    <button class="gk-button @GetComponentClass()"
             disabled="@(ParentDisabled || Disabled)"
+            @onclick="@OnClickHandlerAsync" 
             @attributes="Attributes">
+
         @ChildContent
     </button>
 </div>

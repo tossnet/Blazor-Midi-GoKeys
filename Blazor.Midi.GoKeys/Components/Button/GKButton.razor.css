@@ -88,4 +88,28 @@
         height: 30px;
     }
 
+.gk-indicator {
+    position: relative;
+    top: 25px;
+    width: 10px;
+    height: 10px;
+    background-color: #242733;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+    margin-top: -10px;
+}
 
+    .gk-indicator.indicator-on-white {
+        background-color: #c7c7c7;
+        box-shadow: 0 0 5px #fff;
+    }
+
+    .gk-indicator.indicator-on-red {
+        background-color: #b71c1c;
+        box-shadow: 0 0 5px #ff0000;
+    }
+
+    .gk-indicator.indicador-off {
+        display: none;
+    }

@@ -29,6 +29,12 @@ public partial class GKButton : GKComponentBase
     [Parameter]
     public bool IsIndicatorOn { get; set; } = false;
 
+    /// <summary>
+    /// Color of the led when it is on.
+    /// </summary>
+    [Parameter]
+    public IndicatorColor IndicatorColor { get; set; } = IndicatorColor.White;
+
     /// <summary />
     [Parameter]
     public string? Caption { get; set; }
@@ -40,6 +46,8 @@ public partial class GKButton : GKComponentBase
     /// </summary>
     protected async Task OnClickHandlerAsync(MouseEventArgs e)
     {
+        IsIndicatorOn = !IsIndicatorOn;
+
         if (!Disabled && OnClick.HasDelegate)
         {
             await OnClick.InvokeAsync(e);
@@ -69,5 +77,18 @@ public partial class GKButton : GKComponentBase
         }
 
         return null;
+    }
+
+    private string? GetIndicatorClass()
+    {
+        switch (IndicatorColor)
+        {
+            case IndicatorColor.Red:
+                return IsIndicatorOn ? "indicator-on-red" : "indicator-off";
+            case IndicatorColor.White:
+                return IsIndicatorOn ? "indicator-on-white" : "indicator-off";
+            default:
+                return null;
+        }
     }
 }

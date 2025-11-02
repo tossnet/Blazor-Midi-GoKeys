@@ -43,7 +43,6 @@ public partial class TonesPanel
     /// <summary />
     private async Task OnToneClick(Tone tone)
     {
-        //Console.WriteLine("panel OnToneClick");
         await OnToneClickCallback.InvokeAsync(tone);
     }
 }
