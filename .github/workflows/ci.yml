@@ -15,6 +15,7 @@ jobs:
     name: Build and Deploy Job
     steps:
       - name: Set the name of the repo in env variable 
+        shell: pwsh
         run: 
             echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
         
