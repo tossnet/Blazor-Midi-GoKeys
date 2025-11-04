@@ -17,7 +17,7 @@ jobs:
       - name: Set the name of the repo in env variable 
         shell: pwsh
         run: 
-            echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "REPO_NAME=${{ github.event.repository.name }}" >> $env:GITHUB_ENV
         
       - uses: actions/checkout@v2
       
@@ -34,18 +34,15 @@ jobs:
             dotnet publish --configuration Release
 
       - name: Change base-tag in index.html to repo name
-        #run: sed -i 's/<base href="\/" \/>/<base href="\/${{ env.REPO_NAME }}\/" \/>/g' $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html
-        # Remplacez la ligne sed par cette étape PowerShell
         shell: pwsh
         run: |
           $indexPath = "$env:GITHUB_WORKSPACE/$env:PUBLISH_FOLDER/index.html"
-          $repoName = "${{ env.REPO_NAME }}"
+          $repoName = "${{ github.event.repository.name }}"
           $content = Get-Content $indexPath -Raw
           $content = $content -replace '<base href="/" />', "<base href=`"/$repoName/`" />"
           Set-Content $indexPath $content -NoNewline
   
       - name: copy index.html to 404.html
-        #run: cp $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html $GITHUB_WORKSPACE/$PUBLISH_FOLDER/404.html
         shell: pwsh
         run: |
           $sourcePath = Join-Path $env:GITHUB_WORKSPACE $env:PUBLISH_FOLDER "index.html"
@@ -53,7 +50,6 @@ jobs:
           Copy-Item $sourcePath $destPath
       
       - name: Add .nojekyll file
-        #run: touch $PUBLISH_FOLDER/.nojekyll
         shell: pwsh
         run: New-Item -Path "$env:PUBLISH_FOLDER/.nojekyll" -ItemType File -Force
         
