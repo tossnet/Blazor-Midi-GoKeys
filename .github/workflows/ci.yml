@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     env:
      PUBLISH_FOLDER: Blazor.Midi.GoKeys/bin/Release/net9.0/publish/wwwroot
