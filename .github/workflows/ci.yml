@@ -43,7 +43,12 @@ jobs:
           Set-Content $indexPath $content -NoNewline
   
       - name: copy index.html to 404.html
-        run: cp $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html $GITHUB_WORKSPACE/$PUBLISH_FOLDER/404.html
+        #run: cp $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html $GITHUB_WORKSPACE/$PUBLISH_FOLDER/404.html
+        shell: pwsh
+        run: |
+          $sourcePath = Join-Path $env:GITHUB_WORKSPACE $env:PUBLISH_FOLDER "index.html"
+          $destPath = Join-Path $env:GITHUB_WORKSPACE $env:PUBLISH_FOLDER "404.html"
+          Copy-Item $sourcePath $destPath
       
       - name: Add .nojekyll file
         run: touch $PUBLISH_FOLDER/.nojekyll
