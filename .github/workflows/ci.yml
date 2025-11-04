@@ -52,7 +52,9 @@ jobs:
           Copy-Item $sourcePath $destPath
       
       - name: Add .nojekyll file
-        run: touch $PUBLISH_FOLDER/.nojekyll
+        #run: touch $PUBLISH_FOLDER/.nojekyll
+        shell: pwsh
+        run: New-Item -Path "$env:PUBLISH_FOLDER/.nojekyll" -ItemType File -Force
         
       - name: Deploy GitHub Pages action
         if: ${{ github.ref == 'refs/heads/main' }}
