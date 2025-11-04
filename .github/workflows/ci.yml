@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-     PUBLISH_FOLDER: Blazor.Midi.GoKeys/bin/Release/net10.0/publish/wwwroot
+     PUBLISH_FOLDER: Blazor.Midi.GoKeys/bin/Release/net9.0/publish/wwwroot
 
     name: Build and Deploy Job
     steps:
@@ -22,7 +22,7 @@ jobs:
       
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '9.0.205'
 
       - name: Dotnet Build
         run: |
