@@ -54,7 +54,8 @@ public partial class Home : IDisposable
     protected override async Task OnInitializedAsync()
     {
         // Dont forget that the 'Web MIDI API' is asynchronous
-        JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./js/midi.js");
+        //JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./js/midi.js");
+        JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Home.razor.js");
 
         if (JsModule is null)
         {
