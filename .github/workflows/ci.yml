@@ -38,8 +38,9 @@ jobs:
         shell: pwsh
         run: |
           $indexPath = "$env:GITHUB_WORKSPACE/$env:PUBLISH_FOLDER/index.html"
+          $repoName = "${{ env.REPO_NAME }}"
           $content = Get-Content $indexPath -Raw
-          $content = $content -replace '<base href="/" />', '<base href="/${{ env.REPO_NAME }}/" />'
+          $content = $content -replace '<base href="/" />', "<base href=`"/$repoName/`" />"
           Set-Content $indexPath $content -NoNewline
   
       - name: copy index.html to 404.html
