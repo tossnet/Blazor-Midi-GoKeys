@@ -11,9 +11,9 @@
 		<br />
 		<select class="category-select" @onchange="OnCategoryChanged">
 			<option value="">Select a category</option>
-			@foreach (var category in Categories)
+			@foreach (var item in Categories)
 			{
-				<option value="@category">@category</option>
+				<option value="@item" selected="@(Category == item)">@item</option>
 			}
 		</select>
 	}

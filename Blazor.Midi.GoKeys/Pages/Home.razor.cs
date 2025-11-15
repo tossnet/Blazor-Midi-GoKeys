@@ -33,6 +33,7 @@ public partial class Home : IDisposable
             Type = typeof(TonesPanel),
             Parameters = {
                         [nameof(TonesPanel.Categories)] = _categories,
+                        [nameof(TonesPanel.Category)] = _selectedtone?.Category,
                         [nameof(TonesPanel.OnToneClickCallback)] = EventCallback.Factory.Create<Tone>(this, OnToneClick)
                      }
         },
@@ -144,6 +145,7 @@ public partial class Home : IDisposable
     private async Task OnToneClick(Tone tone)
     {
         _selectedtone = tone;
+
         JsModule?.InvokeVoid("sendProgramChange", 4, tone.MSB, tone.LSB, tone.PC);
         UpdateMainContent();
     }
@@ -159,11 +161,18 @@ public partial class Home : IDisposable
     /// <summary />
     private async Task PreselectClick(string category)
     {
-        _selectedTones = ToneService.GetTonesByCategory(category);
-
-        if (_selectedTones.Any())
+        if (_selectedtone == null)
         {
-            await OnToneClick(_selectedTones.First());
+            _selectedtone = new Tone { Category = category };
+        }
+        else
+        {
+            _selectedtone.Category = category;
+        }
+
+        if (_selectedComponent?.Type.Name == nameof(TonesPanel))
+        {
+            _selectedComponent.Parameters[nameof(TonesPanel.Category)] = category;
         }
     }
 

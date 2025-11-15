@@ -13,11 +13,29 @@ public partial class TonesPanel
 
     /// <summary />
     [Parameter]
+    public string? Category { get; set; }
+
+    /// <summary />
+    [Parameter]
     public EventCallback<Tone> OnToneClickCallback { get; set; }
 
     private List<Tone> selectedTones = new();
 
     private string? _searchText;
+
+    /// <summary />
+    public override async Task SetParametersAsync(ParameterView parameters)
+    {
+        // Take the previous value before assignment
+        var previousCategory = Category;
+
+        await base.SetParametersAsync(parameters);
+
+        if (parameters.TryGetValue(nameof(Category), out string? newCategory) && previousCategory != newCategory)
+        {
+            GetTones();
+        }
+    }
 
     /// <summary />
     private void FilterTones(string? value)
@@ -33,10 +51,16 @@ public partial class TonesPanel
     /// <summary />
     private void OnCategoryChanged(ChangeEventArgs e)
     {
-        var category = e.Value?.ToString();
-        if (!string.IsNullOrEmpty(category))
+        Category = e.Value?.ToString();
+        GetTones();
+    }
+
+    /// <summary />
+    private void GetTones()
+    {
+        if (!string.IsNullOrEmpty(Category))
         {
-            selectedTones = ToneService.GetTonesByCategory(category);
+            selectedTones = ToneService.GetTonesByCategory(Category);
         }
     }
 
