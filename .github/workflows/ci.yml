@@ -7,22 +7,23 @@ on:
 jobs:
   build:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     
     env:
-     PUBLISH_FOLDER: Blazor.Midi.GoKeys/bin/Release/net10.0/publish/wwwroot
+     PUBLISH_FOLDER: Blazor.Midi.GoKeys/bin/Release/net9.0/publish/wwwroot
 
     name: Build and Deploy Job
     steps:
       - name: Set the name of the repo in env variable 
+        shell: pwsh
         run: 
-            echo "REPO_NAME=${{ github.event.repository.name }}" >> $GITHUB_ENV
+            echo "REPO_NAME=${{ github.event.repository.name }}" >> $env:GITHUB_ENV
         
       - uses: actions/checkout@v2
       
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '10.x'
+          dotnet-version: '9.x'
 
       - name: Dotnet Build
         run: |
@@ -33,13 +34,24 @@ jobs:
             dotnet publish --configuration Release
 
       - name: Change base-tag in index.html to repo name
-        run: sed -i 's/<base href="\/" \/>/<base href="\/${{ env.REPO_NAME }}\/" \/>/g' $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html
+        shell: pwsh
+        run: |
+          $indexPath = "$env:GITHUB_WORKSPACE/$env:PUBLISH_FOLDER/index.html"
+          $repoName = "${{ github.event.repository.name }}"
+          $content = Get-Content $indexPath -Raw
+          $content = $content -replace '<base href="/" />', "<base href=`"/$repoName/`" />"
+          Set-Content $indexPath $content -NoNewline
   
       - name: copy index.html to 404.html
-        run: cp $GITHUB_WORKSPACE/$PUBLISH_FOLDER/index.html $GITHUB_WORKSPACE/$PUBLISH_FOLDER/404.html
+        shell: pwsh
+        run: |
+          $sourcePath = Join-Path $env:GITHUB_WORKSPACE $env:PUBLISH_FOLDER "index.html"
+          $destPath = Join-Path $env:GITHUB_WORKSPACE $env:PUBLISH_FOLDER "404.html"
+          Copy-Item $sourcePath $destPath
       
       - name: Add .nojekyll file
-        run: touch $PUBLISH_FOLDER/.nojekyll
+        shell: pwsh
+        run: New-Item -Path "$env:PUBLISH_FOLDER/.nojekyll" -ItemType File -Force
         
       - name: Deploy GitHub Pages action
         if: ${{ github.ref == 'refs/heads/main' }}
