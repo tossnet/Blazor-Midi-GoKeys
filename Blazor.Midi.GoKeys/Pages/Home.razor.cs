@@ -33,7 +33,6 @@ public partial class Home : IDisposable
             Type = typeof(TonesPanel),
             Parameters = {
                         [nameof(TonesPanel.Categories)] = _categories,
-                        [nameof(TonesPanel.Category)] = _selectedtone?.Category,
                         [nameof(TonesPanel.OnToneClickCallback)] = EventCallback.Factory.Create<Tone>(this, OnToneClick)
                      }
         },
@@ -55,7 +54,6 @@ public partial class Home : IDisposable
     protected override async Task OnInitializedAsync()
     {
         // Dont forget that the 'Web MIDI API' is asynchronous
-        //JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./js/midi.js");
         JsModule ??= await js.InvokeAsync<IJSInProcessObjectReference>("import", "./Pages/Home.razor.js");
 
         if (JsModule is null)
@@ -108,6 +106,7 @@ public partial class Home : IDisposable
             Velocity = velocity
         };
 
+        //TODO test => if (_selectedComponent?.Type == typeof(TrackerPanel))
         if (_selectedComponent?.Type.Name == nameof(TrackerPanel))
         {
             _selectedComponent.Parameters[nameof(TrackerPanel.MidiNote)] = _midiNote;
@@ -142,7 +141,7 @@ public partial class Home : IDisposable
     }
 
     /// <summary />
-    private async Task OnToneClick(Tone tone)
+    private void OnToneClick(Tone tone)
     {
         _selectedtone = tone;
 
@@ -150,7 +149,8 @@ public partial class Home : IDisposable
         UpdateMainContent();
     }
 
-    private async Task OnClickPlay(List<Note> rawMidiKeys)
+    /// <summary />
+    private void OnClickPlay(List<Note> rawMidiKeys)
     {
         int tempo = 20;
         int noteDuration = 500;
@@ -159,25 +159,7 @@ public partial class Home : IDisposable
     }
 
     /// <summary />
-    private async Task PreselectClick(string category)
-    {
-        if (_selectedtone == null)
-        {
-            _selectedtone = new Tone { Category = category };
-        }
-        else
-        {
-            _selectedtone.Category = category;
-        }
-
-        if (_selectedComponent?.Type.Name == nameof(TonesPanel))
-        {
-            _selectedComponent.Parameters[nameof(TonesPanel.Category)] = category;
-        }
-    }
-
-    /// <summary />
-    private async Task NoYetCode()
+    private void NoYetCode()
     {
         js.InvokeVoid("alert", "Not yet implement");
     }
