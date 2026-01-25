@@ -5,8 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
-		<WasmFingerprintAssets>false</WasmFingerprintAssets>
-		<BlazorEnableCompression>false</BlazorEnableCompression>
+		<BlazorEnableIntegrityChecks>false</BlazorEnableIntegrityChecks>
   </PropertyGroup>
 
   <ItemGroup>
