@@ -1,7 +1,7 @@
 ﻿.items {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    /*gap: 15px;*/
 }
 
 .item {
@@ -11,7 +11,7 @@
 
 :root {
     --height-header: 8%;
-    --height-controls: 25%;
+    --height-controls: 235px;/*25%;*/
     --height-tones: 43%;
     --height-keyboard: 24%;
     --box-padding: 8px;
