@@ -25,22 +25,20 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Dotnet Build
-        run: |
-          dotnet build Blazor.Midi.GoKeys/Blazor.Midi.GoKeys.csproj --configuration Release
-
       - name: Dotnet Publish
-        run: 
-            dotnet publish --configuration Release
-
-      - name: Change base-tag in index.html to repo name
-        shell: pwsh
         run: |
-          $indexPath = "$env:GITHUB_WORKSPACE/$env:PUBLISH_FOLDER/index.html"
-          $repoName = "${{ github.event.repository.name }}"
-          $content = Get-Content $indexPath -Raw
-          $content = $content -replace '<base href="/" />', "<base href=`"/$repoName/`" />"
-          Set-Content $indexPath $content -NoNewline
+          dotnet publish Blazor.Midi.GoKeys/Blazor.Midi.GoKeys.csproj `
+            -c Release `
+            -p:GHPages=true
+
+      # - name: Change base-tag in index.html to repo name
+      #   shell: pwsh
+      #   run: |
+      #     $indexPath = "$env:GITHUB_WORKSPACE/$env:PUBLISH_FOLDER/index.html"
+      #     $repoName = "${{ github.event.repository.name }}"
+      #     $content = Get-Content $indexPath -Raw
+      #     $content = $content -replace '<base href="/" />', "<base href=`"/$repoName/`" />"
+      #     Set-Content $indexPath $content -NoNewline
   
       - name: copy index.html to 404.html
         shell: pwsh
