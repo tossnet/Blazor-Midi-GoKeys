@@ -21,13 +21,13 @@ public partial class Home : IDisposable
     public List<Note> _rawMidiKeys = new();
     private Tone? _selectedtone;
     private ComponentMetadata? _selectedComponent;
+    private ComponentMetadata? _selectedBottomComponent;
     private int _activePanelIndex;
     private Note _midiNote;
 
     /// <summary />
     private Dictionary<string, ComponentMetadata> Components => new()
     {
-
         [nameof(TonesPanel)] = new ComponentMetadata()
         {
             Type = typeof(TonesPanel),
@@ -50,7 +50,19 @@ public partial class Home : IDisposable
             Type = typeof(SettingsPanel),
         }
     };
-    
+
+    private Dictionary<string, ComponentMetadata> BottomComponents => new()
+    {
+        [nameof(KeyboardPanel)] = new ComponentMetadata()
+        {
+            Type = typeof(KeyboardPanel),
+        },
+        [nameof(PresetsPanel)] = new ComponentMetadata()
+        {
+            Type = typeof(PresetsPanel),
+        }
+    };
+
     protected override async Task OnInitializedAsync()
     {
         // Dont forget that the 'Web MIDI API' is asynchronous
@@ -70,6 +82,8 @@ public partial class Home : IDisposable
         _categories = ToneService.GetCategories();
 
         js.InvokeVoid("gkClick_init");
+
+        _selectedBottomComponent = BottomComponents[nameof(KeyboardPanel)];
     }
 
     /// <summary />
@@ -122,6 +136,10 @@ public partial class Home : IDisposable
         _activePanelIndex = GetActiveMenuIndex();
     }
 
+    private void SelectBottomPanel(ComponentMetadata component)
+    {
+        _selectedBottomComponent = component;
+    }
     /// <summary>
     /// Get index for the LCD Menu according the ComponentMetadata
     /// </summary>

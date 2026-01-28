@@ -27,7 +27,7 @@
 			<GKButton Caption="f3"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
-					  OnClick="NoYetCode" />
+					  OnClick="@(() => SelectBottomPanel(BottomComponents[nameof(PresetsPanel)]))" />
 			<GKButton Caption="f4"
 					  CaptionPosition="CaptionPosition.Inside"
 					  Style="flex: 1;"
@@ -52,26 +52,9 @@
 
 
 <div class="row-4">
-	<div class="box box-9">
-		<div id="keyboard">
-			<div class="piano-key white" data-note="C"></div>
-			<div class="piano-key black" data-note="C#"></div>
-			<div class="piano-key white offset" data-note="D"></div>
-			<div class="piano-key black" data-note="D#"></div>
-			<div class="piano-key white offset offset-right" data-note="E"></div>
-			<div class="piano-key white" data-note="F"></div>
-			<div class="piano-key black" data-note="F#"></div>
-			<div class="piano-key white offset" data-note="G"></div>
-			<div class="piano-key black" data-note="G#"></div>
-			<div class="piano-key white offset" data-note="A"></div>
-			<div class="piano-key black" data-note="A#"></div>
-			<div class="piano-key white offset offset-right" data-note="B"></div>
-			<div class="piano-key white" data-note="C2"></div>
-			<div class="piano-key black" data-note="C#2"></div>
-			<div class="piano-key white offset" data-note="D2"></div>
-			<div class="piano-key black" data-note="D#2"></div>
-			<div class="piano-key white offset" data-note="E2"></div>
-		</div>
-
-	</div>
+	@if (_selectedBottomComponent is not null)
+	{
+		<DynamicComponent Type="_selectedBottomComponent.Type"
+						  Parameters="_selectedBottomComponent.Parameters" />
+	}
 </div>

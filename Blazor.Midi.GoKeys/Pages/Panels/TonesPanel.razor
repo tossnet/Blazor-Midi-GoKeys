@@ -34,9 +34,14 @@
 			<GKButton class="item"
 					  Caption="dist.Guitar"
 					  OnClick="@(() => PreselectClick("Dist.Guitar"))" />
+			<GKButton class="item"
+					  Caption="Pipe Organ"
+					  OnClick="@(() => PreselectClick("Pipe Organ"))" />
+			<GKButton class="item"
+					  Caption="Synth Bass"
+					  OnClick="@(() => PreselectClick("Synth Bass"))" />
 		</div>
 
-		<br />
 		<br />
 		<select class="category-select" @onchange="OnCategoryChanged">
 			<option value="">Select a category</option>
